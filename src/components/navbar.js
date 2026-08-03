@@ -34,16 +34,29 @@ export function navbar() {
 
             <div class="nav-right">
 
-                <a
-                    href="https://wa.me/918097716336?text=Hi%20CloudFix%20India,%20I%20need%20IT%20support."
-                    target="_blank"
-                    class="whatsapp">
+<div class="navbar-actions">
 
-                    <i class="fa-brands fa-whatsapp"></i>
+    <button
+        class="theme-toggle"
+        id="themeToggle"
+        aria-label="Toggle Theme">
 
-                    <span>WhatsApp</span>
+        <i class="fa-solid fa-moon"></i>
 
-                </a>
+    </button>
+
+    <a
+        href="https://wa.me/918097716336?text=Hi%20CloudFix%20India,%20I%20need%20IT%20support."
+        target="_blank"
+        class="whatsapp">
+
+        <i class="fa-brands fa-whatsapp"></i>
+
+        WhatsApp
+
+    </a>
+
+</div>
 
                 <button
                     class="menu-toggle"
@@ -70,13 +83,22 @@ export function navbar() {
 
 <aside class="mobile-menu" id="mobileMenu">
 
-    <div class="mobile-header">
+<div class="mobile-header">
 
-        <div class="mobile-logo">
+    <div class="mobile-logo">
+        Cloud<span>Fix</span> India
+    </div>
 
-            Cloud<span>Fix</span> India
+    <div class="mobile-header-actions">
 
-        </div>
+        <button
+            class="theme-toggle"
+            id="mobileThemeToggle"
+            aria-label="Toggle Theme">
+
+            <i class="fa-solid fa-moon"></i>
+
+        </button>
 
         <button
             class="close-menu"
@@ -87,6 +109,8 @@ export function navbar() {
         </button>
 
     </div>
+
+</div>
 
     <ul class="mobile-links">
 
@@ -133,6 +157,7 @@ export function navbar() {
 </li>
 
     </ul>
+
 
     <a
         href="https://wa.me/918097716336?text=Hi%20CloudFix%20India,%20I%20need%20IT%20support."

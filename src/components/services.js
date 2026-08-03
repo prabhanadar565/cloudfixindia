@@ -158,7 +158,7 @@ function serviceCard(icon, title, features, price, badge = "") {
         Starting From
     </div>
 
-    <div class="price">
+    <div class="price ${isNaN(price.replace(/[₹,]/g, "")) ? "text-price" : ""}">
         ${price}
     </div>
 

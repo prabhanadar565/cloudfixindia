@@ -22,6 +22,7 @@ import "./styles/serviceAreas.css";
 import "./styles/map.css";
 import "./styles/stats.css";
 import "./styles/mobileBar.css";
+import "./styles/theme.css";
 
 import { navbar } from "./components/navbar";
 import { hero } from "./components/hero";
@@ -44,6 +45,7 @@ import { mapSection } from "./components/map";
 import { stats } from "./components/stats";
 import { initStats } from "./components/statsController";
 import { mobileBar } from "./components/mobileBar";
+import { initTheme } from "./components/themeController";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 document.querySelector("#app").innerHTML = `
@@ -69,6 +71,7 @@ initSwiper();
 initContactForm();
 initScrollTop();
 initNavbar();
+initTheme();
 initFaq();
 initStats();
 

@@ -1,0 +1,97 @@
+/* ==========================================
+   LIGHT THEME
+========================================== */
+
+:root{
+
+    --bg:#F8FAFC;
+
+    --surface:#FFFFFF;
+
+    --card:#FFFFFF;
+
+    --text:#334155;
+
+    --heading:#0F172A;
+
+    --border:#E2E8F0;
+
+    --primary:#2563EB;
+    
+    --green:#22C55E;
+
+    --shadow:0 10px 30px rgba(15,23,42,.08);
+
+    --blue-hover:rgba(37,99,235,.12);
+
+}
+
+/* ==========================================
+   DARK THEME
+========================================== */
+
+body.dark{
+
+    --bg:#0F172A;
+
+    --surface:#111827;
+
+    --card:#1E293B;
+
+    --text:#CBD5E1;
+
+    --heading:#F8FAFC;
+
+    --border:#334155;
+
+    --primary:#2563EB;
+    
+    --green:#22C55E;
+
+    --shadow:0 10px 30px rgba(0,0,0,.45);
+
+    --blue-hover:rgba(37,99,235,.22);
+
+}
+
+/* ==========================================
+   GLOBAL
+========================================== */
+
+html{
+
+    transition:.35s;
+
+}
+
+body{
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    transition:
+        background .35s,
+        color .35s;
+
+}
+
+section{
+
+    background:transparent;
+
+    transition:.35s;
+
+}
+
+h1,h2,h3,h4,h5{
+
+    color:var(--heading);
+
+}
+
+p{
+
+    color:var(--text);
+
+}
