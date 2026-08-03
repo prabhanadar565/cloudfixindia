@@ -90,17 +90,47 @@ export function navbar() {
 
     <ul class="mobile-links">
 
-        <li><a href="#home">🏠 Home</a></li>
+        <li>
+    <a href="#home">
+        <i class="fa-solid fa-house"></i>
+        Home
+    </a>
+</li>
 
-        <li><a href="#services">💻 Services</a></li>
+<li>
+    <a href="#services">
+        <i class="fa-solid fa-laptop"></i>
+        Services
+    </a>
+</li>
 
-        <li><a href="#pricing">💰 Pricing</a></li>
+<li>
+    <a href="#pricing">
+        <i class="fa-solid fa-tags"></i>
+        Pricing
+    </a>
+</li>
 
-        <li><a href="#about">⭐ Why Choose Us</a></li>
+<li>
+    <a href="#about">
+        <i class="fa-solid fa-shield-halved"></i>
+        Why Choose Us
+    </a>
+</li>
 
-        <li><a href="#testimonials">💬 Reviews</a></li>
+<li>
+    <a href="#testimonials">
+        <i class="fa-regular fa-message"></i>
+        Reviews
+    </a>
+</li>
 
-        <li><a href="#contact">📞 Contact</a></li>
+<li>
+    <a href="#contact">
+        <i class="fa-solid fa-phone"></i>
+        Contact
+    </a>
+</li>
 
     </ul>
 

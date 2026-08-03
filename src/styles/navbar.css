@@ -351,3 +351,32 @@
     color:#2563EB;
     font-weight:700;
 }
+
+.mobile-menu a{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    text-decoration:none;
+    color:#334155;
+    padding:16px 18px;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.mobile-menu a i{
+    width:24px;
+    text-align:center;
+    color:#2563EB;
+    font-size:20px;
+}
+
+.mobile-menu a:hover{
+    background:#EFF6FF;
+    color:#2563EB;
+}
+
+.mobile-menu a:hover i{
+    color:#2563EB;
+}
