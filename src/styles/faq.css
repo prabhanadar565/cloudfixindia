@@ -1,0 +1,160 @@
+/* ==========================================
+   FAQ SECTION
+========================================== */
+
+.faq{
+    padding:120px 0;
+    background:#F8FAFC;
+}
+
+.faq .section-title{
+    text-align:center;
+    max-width:800px;
+    margin:0 auto 70px;
+}
+
+.faq-container{
+    max-width:900px;
+    margin:0 auto;
+}
+
+/* ==========================================
+   FAQ ITEM
+========================================== */
+
+.faq-item{
+    background:#fff;
+    border:1px solid #E5E7EB;
+    border-radius:18px;
+    margin-bottom:18px;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(15,23,42,.05);
+    transition:.3s;
+}
+
+.faq-item:hover{
+    border-color:#2563EB;
+    box-shadow:0 20px 45px rgba(37,99,235,.12);
+}
+
+/* ==========================================
+   QUESTION
+========================================== */
+
+.faq-question{
+    width:100%;
+    background:none;
+    border:none;
+    outline:none;
+    cursor:pointer;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:26px 30px;
+
+    font-size:20px;
+    font-weight:700;
+    color:#0F172A;
+    text-align:left;
+
+    transition:.3s;
+}
+
+.faq-question:hover{
+    color:#2563EB;
+}
+
+.faq-question i{
+    font-size:18px;
+    color:#2563EB;
+    transition:.35s;
+}
+
+/* ==========================================
+   ANSWER
+========================================== */
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+}
+
+.faq-answer p{
+    padding:0 30px 30px;
+    font-size:17px;
+    line-height:1.8;
+    color:#64748B;
+}
+
+/* ==========================================
+   ACTIVE
+========================================== */
+
+.faq-item.active .faq-answer{
+    max-height:250px;
+}
+
+.faq-item.active .faq-question i{
+    transform:rotate(45deg);
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media(max-width:992px){
+
+.faq{
+    padding:100px 0;
+}
+
+.faq-question{
+    font-size:18px;
+}
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:768px){
+
+.faq{
+    padding:80px 0;
+}
+
+.faq .section-title{
+    margin-bottom:50px;
+}
+
+.faq-question{
+    padding:22px;
+    font-size:17px;
+}
+
+.faq-answer p{
+    padding:0 22px 22px;
+    font-size:16px;
+}
+
+}
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media(max-width:480px){
+
+.faq-question{
+    font-size:16px;
+}
+
+.faq-answer p{
+    font-size:15px;
+}
+
+}

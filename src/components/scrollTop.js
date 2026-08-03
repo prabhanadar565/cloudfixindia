@@ -1,0 +1,48 @@
+export function scrollTopButton() {
+
+return `
+
+<button
+id="scrollTop"
+class="scroll-top"
+aria-label="Back to Top">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+`;
+
+}
+
+export function initScrollTop(){
+
+const button=document.getElementById("scrollTop");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>500){
+
+button.classList.add("show");
+
+}else{
+
+button.classList.remove("show");
+
+}
+
+});
+
+button.addEventListener("click",()=>{
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+});
+
+}

@@ -1,0 +1,155 @@
+/* ==========================================
+   WHY CHOOSE US
+========================================== */
+
+.whychoose{
+
+    padding:120px 0;
+
+    background:#F8FAFC;
+
+}
+
+.why-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:30px;
+
+    margin-top:70px;
+
+}
+
+/* CARD */
+
+.why-card{
+
+    background:#fff;
+
+    border-radius:24px;
+
+    padding:40px 35px;
+
+    text-align:center;
+
+    border:1px solid #E5E7EB;
+
+    transition:.35s;
+
+    box-shadow:0 15px 40px rgba(15,23,42,.05);
+
+}
+
+.why-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 25px 60px rgba(37,99,235,.15);
+
+    border-color:#2563EB;
+
+}
+
+.why-icon{
+
+    width:85px;
+
+    height:85px;
+
+    margin:auto;
+
+    border-radius:22px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#EFF6FF;
+
+    color:#2563EB;
+
+    font-size:36px;
+
+    margin-bottom:25px;
+
+    transition:.35s;
+
+}
+
+.why-card:hover .why-icon{
+
+    background:#2563EB;
+
+    color:#fff;
+
+    transform:rotate(-10deg) scale(1.1);
+
+}
+
+.why-card h3{
+
+    font-size:28px;
+
+    color:#0F172A;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+
+.why-card p{
+
+    color:#64748B;
+
+    line-height:1.8;
+
+    font-size:17px;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+.why-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.whychoose{
+
+padding:90px 0;
+
+}
+
+.why-grid{
+
+grid-template-columns:1fr;
+
+gap:25px;
+
+}
+
+.why-card{
+
+padding:35px 28px;
+
+}
+
+.why-card h3{
+
+font-size:24px;
+
+}
+
+}

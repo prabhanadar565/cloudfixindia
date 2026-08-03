@@ -1,0 +1,353 @@
+/* ==========================================
+   HEADER
+========================================== */
+
+.header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(226,232,240,.8);
+    transition:.35s ease;
+}
+
+.navbar{
+    height:82px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+/* ==========================================
+   LOGO
+========================================== */
+
+.logo{
+    font-size:30px;
+    font-weight:800;
+    color:#2563EB;
+    text-decoration:none;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:#22C55E;
+}
+
+/* ==========================================
+   DESKTOP MENU
+========================================== */
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:34px;
+    list-style:none;
+}
+
+.nav-links a{
+    position:relative;
+    color:#334155;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-8px;
+    width:0;
+    height:3px;
+    background:#2563EB;
+    border-radius:20px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#2563EB;
+}
+
+.nav-links a:hover::after{
+    width:100%;
+}
+
+/* ==========================================
+   RIGHT SIDE
+========================================== */
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+/* ==========================================
+   WHATSAPP BUTTON
+========================================== */
+
+.whatsapp{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px 26px;
+    border-radius:999px;
+    background:#22C55E;
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+}
+
+.whatsapp:hover{
+    transform:translateY(-3px);
+    background:#16A34A;
+    box-shadow:0 18px 35px rgba(34,197,94,.25);
+}
+
+/* ==========================================
+   MENU BUTTON
+========================================== */
+
+.menu-toggle{
+    display:none;
+    width:46px;
+    height:46px;
+    border:none;
+    background:transparent;
+    color:#2563EB;
+    cursor:pointer;
+    font-size:28px;
+}
+
+/* ==========================================
+   OVERLAY
+========================================== */
+
+.mobile-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.45);
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+    z-index:1998;
+}
+
+.mobile-overlay.active{
+    opacity:1;
+    visibility:visible;
+}
+
+/* ==========================================
+   MOBILE DRAWER
+========================================== */
+
+.mobile-menu{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:320px;
+    max-width:100%;
+    height:100vh;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    padding:28px;
+    box-shadow:-12px 0 35px rgba(0,0,0,.18);
+    transition:right .35s ease;
+    z-index:1999;
+    overflow-y:auto;
+}
+
+.mobile-menu.active{
+    right:0;
+}
+
+/* ==========================================
+   MOBILE HEADER
+========================================== */
+
+.mobile-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.mobile-logo{
+    font-size:24px;
+    font-weight:800;
+    color:#2563EB;
+}
+
+.mobile-logo span{
+    color:#22C55E;
+}
+
+.close-menu{
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:50%;
+    background:#EFF6FF;
+    color:#2563EB;
+    cursor:pointer;
+    font-size:22px;
+    transition:.3s;
+}
+
+.close-menu:hover{
+    background:#2563EB;
+    color:#fff;
+}
+
+/* ==========================================
+   MOBILE LINKS
+========================================== */
+
+.mobile-links{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.mobile-links li{
+    margin-bottom:8px;
+}
+
+.mobile-links a{
+    display:block;
+    padding:15px 16px;
+    border-radius:12px;
+    text-decoration:none;
+    color:#334155;
+    font-weight:600;
+    transition:.3s;
+}
+
+.mobile-links a:hover{
+    background:#EFF6FF;
+    color:#2563EB;
+}
+
+/* ==========================================
+   MOBILE WHATSAPP
+========================================== */
+
+.mobile-whatsapp{
+    margin-top:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    padding:16px;
+    border-radius:14px;
+    background:#22C55E;
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+}
+
+.mobile-whatsapp:hover{
+    background:#16A34A;
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width:1024px){
+
+    .nav-links{
+        gap:22px;
+    }
+
+    .whatsapp{
+        padding:12px 20px;
+    }
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width:768px){
+
+    .navbar{
+        height:74px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .whatsapp{
+        display:none;
+    }
+
+    .menu-toggle{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .logo{
+        font-size:26px;
+    }
+
+}
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width:480px){
+
+    .mobile-menu{
+        width:100%;
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+    .mobile-logo{
+        font-size:24px;
+    }
+
+}
+
+.mobile-menu.active ~ .floating-whatsapp{
+    display:none;
+}
+
+.mobile-links a{
+    transition:all .25s ease;
+}
+
+.mobile-links a:hover{
+    transform:translateX(8px);
+}
+
+.mobile-whatsapp{
+    margin-top:30px;
+}
+
+.mobile-links{
+    padding-bottom:25px;
+    border-bottom:1px solid #E5E7EB;
+}
+
+.mobile-links a.active{
+    background:#EFF6FF;
+    color:#2563EB;
+    font-weight:700;
+}

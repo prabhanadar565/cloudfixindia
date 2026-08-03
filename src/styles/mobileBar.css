@@ -1,0 +1,71 @@
+/* ==========================================
+   MOBILE CONTACT BAR
+========================================== */
+
+.mobile-bar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:70px;
+    background:#ffffff;
+    display:none;
+    grid-template-columns:1fr 1fr;
+    box-shadow:0 -8px 25px rgba(0,0,0,.12);
+    border-top:1px solid #E5E7EB;
+    z-index:9997;
+}
+
+.mobile-bar a{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:16px;
+    transition:.3s;
+}
+
+.mobile-call{
+    background:#2563EB;
+    color:#fff;
+}
+
+.mobile-call:hover{
+    background:#1D4ED8;
+}
+
+.mobile-wa{
+    background:#22C55E;
+    color:#fff;
+}
+
+.mobile-wa:hover{
+    background:#16A34A;
+}
+
+.mobile-bar i{
+    font-size:20px;
+}
+
+/* ==========================================
+   MOBILE ONLY
+========================================== */
+
+@media(max-width:768px){
+
+    .mobile-bar{
+        display:grid;
+    }
+
+    /* Prevent overlap with mobile bar */
+    .floating-whatsapp{
+        bottom:90px !important;
+    }
+
+    .scroll-top{
+        bottom:160px !important;
+    }
+
+}

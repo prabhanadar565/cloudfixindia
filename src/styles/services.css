@@ -1,0 +1,526 @@
+/* ===========================================
+   SERVICES SECTION
+=========================================== */
+
+.services{
+    padding:140px 0;
+    background:#F8FAFC;
+}
+
+.section-title{
+    max-width:850px;
+    margin:0 auto 80px;
+    text-align:center;
+}
+
+.section-badge{
+    display:inline-block;
+    padding:10px 22px;
+    background:#EAF3FF;
+    color:#2563EB;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:1px;
+    margin-bottom:20px;
+}
+
+.section-title h2{
+    font-size:54px;
+    font-weight:800;
+    line-height:1.2;
+    color:#0F172A;
+    margin-bottom:25px;
+}
+
+.section-title h2 span{
+    color:#2563EB;
+}
+
+.section-title p{
+    font-size:20px;
+    line-height:1.8;
+    color:#64748B;
+}
+
+/* ===========================================
+   GRID
+=========================================== */
+
+.service-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:30px;
+
+    align-items:stretch;
+
+}
+
+/* ===========================================
+   CARD
+=========================================== */
+
+.service-card{
+
+    position:relative;
+
+    background:#fff;
+
+    border:1px solid #E5E7EB;
+
+    border-radius:26px;
+
+    overflow:hidden;
+
+    padding:40px 35px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    height:100%;
+
+    box-shadow:0 15px 35px rgba(15,23,42,.05);
+
+    transition:.35s ease;
+
+}
+
+.service-card:hover{
+
+    transform:translateY(-10px);
+
+    border-color:#2563EB;
+
+    box-shadow:0 25px 60px rgba(37,99,235,.18);
+
+}
+
+.service-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:100%;
+
+    height:4px;
+
+    background:#2563EB;
+
+    transform:scaleX(0);
+
+    transform-origin:left;
+
+    transition:.35s;
+
+}
+
+.service-card:hover::before{
+
+    transform:scaleX(1);
+
+}
+
+/* ===========================================
+   BADGE
+=========================================== */
+
+.service-badge{
+
+    position:absolute;
+
+    top:16px;
+
+    right:16px;
+
+    background:#22C55E;
+
+    color:white;
+
+    padding:8px 16px;
+
+    border-radius:30px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+}
+
+/* ===========================================
+   ICON
+=========================================== */
+
+.service-icon{
+
+    width:70px;
+
+    height:70px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#EFF6FF;
+
+    border-radius:18px;
+
+    color:#2563EB;
+
+    font-size:34px;
+
+    margin-bottom:25px;
+
+    transition:.35s;
+
+}
+
+.service-card:hover .service-icon{
+
+    background:#2563EB;
+
+    color:white;
+
+    transform:rotate(-5deg) scale(1.05);
+
+}
+
+/* ===========================================
+   TITLE
+=========================================== */
+
+.service-card h3{
+
+    min-height:80px;
+
+    display:flex;
+
+    align-items:center;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
+    margin-bottom:25px;
+
+}
+
+/* ===========================================
+   FEATURES
+=========================================== */
+
+.service-list{
+
+    flex:1;
+
+    margin-bottom:30px;
+
+}
+
+.service-list li{
+
+    list-style:none;
+
+    display:flex;
+
+    align-items:center;
+
+    margin-bottom:14px;
+
+    color:#475569;
+
+    font-size:16px;
+
+    line-height:1.5;
+
+}
+
+.service-list li::before{
+
+    content:"✓";
+
+    width:24px;
+
+    height:24px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#DCFCE7;
+
+    color:#16A34A;
+
+    border-radius:50%;
+
+    font-size:13px;
+
+    margin-right:12px;
+
+    flex-shrink:0;
+
+}
+
+/* ===========================================
+   PRICE
+=========================================== */
+
+.price-label{
+
+    font-size:14px;
+
+    color:#64748B;
+
+    margin-bottom:5px;
+
+}
+
+.price{
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:#2563EB;
+
+    margin-bottom:25px;
+
+}
+
+/* ===========================================
+   BUTTON
+=========================================== */
+
+.book-btn{
+
+    margin-top:auto;
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:16px;
+
+    background:#2563EB;
+
+    color:white;
+
+    border-radius:14px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.book-btn:hover{
+
+    background:#1D4ED8;
+
+    transform:translateY(-2px);
+
+}
+
+.book-btn i{
+
+    font-size:20px;
+
+}
+
+/* ===========================================
+   DESKTOP
+=========================================== */
+
+@media(max-width:1400px){
+
+.service-grid{
+
+grid-template-columns:repeat(4,1fr);
+
+}
+
+}
+
+/* ===========================================
+   LAPTOP
+=========================================== */
+
+@media(max-width:1200px){
+
+.service-grid{
+
+grid-template-columns:repeat(3,1fr);
+
+}
+
+}
+
+/* ===========================================
+   TABLET
+=========================================== */
+
+@media(max-width:992px){
+
+.services{
+
+padding:100px 0;
+
+}
+
+.section-title h2{
+
+font-size:42px;
+
+}
+
+.section-title p{
+
+font-size:18px;
+
+}
+
+.service-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+gap:25px;
+
+}
+
+.service-card{
+
+padding:30px;
+
+}
+
+}
+
+/* ===========================================
+   MOBILE
+=========================================== */
+
+@media(max-width:768px){
+
+.services{
+
+padding:80px 0;
+
+}
+
+.section-title{
+
+margin-bottom:50px;
+
+}
+
+.section-title h2{
+
+font-size:34px;
+
+}
+
+.section-title p{
+
+font-size:17px;
+
+}
+
+.service-grid{
+
+grid-template-columns:1fr;
+
+gap:20px;
+
+}
+
+.service-card{
+
+padding:28px;
+
+}
+
+.service-card h3{
+
+font-size:26px;
+
+min-height:auto;
+
+}
+
+.price{
+
+font-size:30px;
+
+}
+
+}
+
+/* ===========================================
+   SMALL MOBILE
+=========================================== */
+
+@media(max-width:480px){
+
+.section-title h2{
+
+font-size:30px;
+
+}
+
+.section-title p{
+
+font-size:16px;
+
+}
+
+.service-card{
+
+padding:24px;
+
+}
+
+.service-icon{
+
+width:60px;
+
+height:60px;
+
+font-size:30px;
+
+}
+
+.service-card h3{
+
+font-size:24px;
+
+}
+
+.price{
+
+font-size:28px;
+
+}
+
+}

@@ -1,0 +1,117 @@
+/* ==========================================
+   SERVICE AREAS
+========================================== */
+
+.service-areas{
+    padding:120px 0;
+    background:#ffffff;
+}
+
+.areas-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+    margin-top:60px;
+}
+
+.area-card{
+
+    background:#fff;
+
+    border:1px solid #E5E7EB;
+
+    border-radius:20px;
+
+    padding:30px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:#334155;
+
+    transition:.35s;
+
+    box-shadow:0 15px 30px rgba(15,23,42,.05);
+
+}
+
+.area-card i{
+
+    color:#2563EB;
+
+    font-size:22px;
+
+    transition:.35s;
+
+}
+
+.area-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#2563EB;
+
+    box-shadow:0 25px 50px rgba(37,99,235,.15);
+
+}
+
+.area-card:hover i{
+
+    transform:scale(1.2);
+
+    color:#22C55E;
+
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media(max-width:992px){
+
+.areas-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:768px){
+
+.service-areas{
+
+    padding:90px 0;
+
+}
+
+.areas-grid{
+
+    grid-template-columns:1fr;
+
+    gap:18px;
+
+}
+
+.area-card{
+
+    padding:22px;
+
+    font-size:17px;
+
+}
+
+}

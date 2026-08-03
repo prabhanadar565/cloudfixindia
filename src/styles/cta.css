@@ -1,0 +1,218 @@
+/* ==========================================
+   CTA SECTION
+========================================== */
+
+.cta{
+    padding:120px 0;
+    background:#F8FAFC;
+}
+
+.cta-box{
+    position:relative;
+    overflow:hidden;
+    border-radius:36px;
+    padding:80px 60px;
+    background:linear-gradient(135deg,#2563EB,#1D4ED8);
+    box-shadow:0 30px 70px rgba(37,99,235,.25);
+}
+
+.cta-box::before{
+    content:"";
+    position:absolute;
+    width:450px;
+    height:450px;
+    background:rgba(255,255,255,.08);
+    border-radius:50%;
+    top:-180px;
+    right:-120px;
+}
+
+.cta-box::after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:rgba(255,255,255,.06);
+    border-radius:50%;
+    bottom:-140px;
+    left:-80px;
+}
+
+.cta-content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    color:#fff;
+}
+
+.cta-badge{
+    display:inline-block;
+    padding:12px 22px;
+    border-radius:50px;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(12px);
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:25px;
+}
+
+.cta h2{
+    font-size:58px;
+    font-weight:800;
+    line-height:1.15;
+    margin-bottom:25px;
+}
+
+.cta h2 span{
+    color:#A5F3FC;
+}
+
+.cta p{
+    max-width:720px;
+    margin:0 auto;
+    font-size:20px;
+    line-height:1.8;
+    color:rgba(255,255,255,.9);
+}
+
+.cta-features{
+    display:grid;
+    grid-template-columns:repeat(2,max-content);
+    justify-content:center;
+    gap:18px 60px;
+    margin:45px 0;
+    font-size:18px;
+    font-weight:600;
+}
+
+.cta-buttons{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.cta-primary,
+.cta-secondary{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    min-width:240px;
+    padding:18px 32px;
+    border-radius:50px;
+    font-weight:700;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.cta-primary{
+    background:#22C55E;
+    color:#fff;
+}
+
+.cta-primary:hover{
+    background:#16A34A;
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px rgba(34,197,94,.35);
+}
+
+.cta-secondary{
+    border:2px solid rgba(255,255,255,.85);
+    color:#fff;
+}
+
+.cta-secondary:hover{
+    background:#fff;
+    color:#2563EB;
+    transform:translateY(-4px);
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media(max-width:992px){
+
+.cta-box{
+    padding:60px 40px;
+}
+
+.cta h2{
+    font-size:46px;
+}
+
+.cta p{
+    font-size:18px;
+}
+
+.cta-features{
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    text-align:left;
+    max-width:500px;
+    margin:40px auto;
+}
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:768px){
+
+.cta{
+    padding:90px 0;
+}
+
+.cta-box{
+    padding:50px 25px;
+    border-radius:28px;
+}
+
+.cta h2{
+    font-size:36px;
+}
+
+.cta p{
+    font-size:17px;
+}
+
+.cta-features{
+    grid-template-columns:1fr;
+    justify-content:center;
+    gap:15px;
+    text-align:left;
+    max-width:260px;
+    margin:35px auto;
+}
+
+.cta-buttons{
+    flex-direction:column;
+}
+
+.cta-primary,
+.cta-secondary{
+    width:100%;
+    min-width:100%;
+}
+
+}
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media(max-width:480px){
+
+.cta h2{
+    font-size:30px;
+}
+
+.cta-badge{
+    font-size:13px;
+}
+
+}
