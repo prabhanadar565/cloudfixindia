@@ -24,6 +24,12 @@
 
     --blue-hover:rgba(37,99,235,.12);
 
+    --footer-bg: linear-gradient(135deg,#0F172A,#1E293B);
+    --footer-text: #CBD5E1;
+    --footer-heading: #FFFFFF;
+    --footer-muted: #94A3B8;
+    --footer-social-bg: #1E293B;
+
 }
 
 /* ==========================================
@@ -51,6 +57,12 @@ body.dark{
     --shadow:0 10px 30px rgba(0,0,0,.45);
 
     --blue-hover:rgba(37,99,235,.22);
+
+    --footer-bg: linear-gradient(135deg,#020617,#0F172A);
+    --footer-text: #CBD5E1;
+    --footer-heading: #FFFFFF;
+    --footer-muted: #94A3B8;
+    --footer-social-bg: #1E293B;
 
 }
 
@@ -95,3 +107,4 @@ p{
     color:var(--text);
 
 }
+

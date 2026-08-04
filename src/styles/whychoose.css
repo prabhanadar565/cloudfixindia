@@ -6,7 +6,7 @@
 
     padding:120px 0;
 
-    background:#F8FAFC;
+    background:var(--bg);
 
 }
 
@@ -26,7 +26,7 @@
 
 .why-card{
 
-    background:#fff;
+    background:var(--surface);
 
     border-radius:24px;
 
@@ -34,11 +34,11 @@
 
     text-align:center;
 
-    border:1px solid #E5E7EB;
+    border:1px solid var(--border);
 
     transition:.35s;
 
-    box-shadow:0 15px 40px rgba(15,23,42,.05);
+    box-shadow:var(--shadow);
 
 }
 
@@ -48,7 +48,7 @@
 
     box-shadow:0 25px 60px rgba(37,99,235,.15);
 
-    border-color:#2563EB;
+    border-color:var(--primary);
 
 }
 
@@ -68,9 +68,9 @@
 
     align-items:center;
 
-    background:#EFF6FF;
+    background:var(--blue-hover);
 
-    color:#2563EB;
+    color:var(--primary);
 
     font-size:36px;
 
@@ -82,7 +82,7 @@
 
 .why-card:hover .why-icon{
 
-    background:#2563EB;
+    background:var(--primary);
 
     color:#fff;
 
@@ -94,7 +94,7 @@
 
     font-size:28px;
 
-    color:#0F172A;
+    color:var(--heading);
 
     margin-bottom:18px;
 
@@ -104,7 +104,7 @@
 
 .why-card p{
 
-    color:#64748B;
+    color:var(--text);
 
     line-height:1.8;
 
@@ -151,5 +151,18 @@ padding:35px 28px;
 font-size:24px;
 
 }
+
+}
+
+.whychoose,
+.why-card,
+.why-card h3,
+.why-card p{
+
+    transition:
+        background .35s,
+        color .35s,
+        border-color .35s,
+        box-shadow .35s;
 
 }

@@ -405,6 +405,7 @@
 
 .mobile-whatsapp{
     margin-top:30px;
+    margin-bottom:20px;
 }
 
 .mobile-links{
@@ -413,9 +414,13 @@
 }
 
 .mobile-links a.active{
-    background:#EFF6FF;
-    color:#2563EB;
+
+    background:var(--blue-hover);
+
+    color:var(--primary);
+
     font-weight:700;
+
 }
 
 .mobile-menu a{
@@ -423,7 +428,7 @@
     align-items:center;
     gap:16px;
     text-decoration:none;
-    color:#334155;
+    color:var(--heading);
     padding:16px 18px;
     border-radius:12px;
     font-size:18px;
@@ -439,8 +444,11 @@
 }
 
 .mobile-menu a:hover{
-    background:rgba(37,99,235,.12);
-    color:#2563EB;
+
+    background:var(--blue-hover);
+
+    color:var(--primary);
+
 }
 
 .mobile-menu a:hover i{

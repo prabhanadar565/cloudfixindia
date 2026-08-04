@@ -4,10 +4,13 @@ export function initTheme() {
 
     const desktopToggle = document.getElementById("themeToggle");
     const mobileToggle = document.getElementById("mobileThemeToggle");
+    const heroImage = document.getElementById("heroImage");
 
-    function updateIcons() {
+    function updateTheme() {
 
-        const icon = body.classList.contains("dark")
+        const isDark = body.classList.contains("dark");
+
+        const icon = isDark
             ? "fa-solid fa-sun"
             : "fa-solid fa-moon";
 
@@ -18,15 +21,26 @@ export function initTheme() {
         if (mobileToggle) {
             mobileToggle.innerHTML = `<i class="${icon}"></i>`;
         }
+
+        // Change Hero Image
+        if (heroImage) {
+
+            heroImage.src = isDark
+                ? "/images/hero-dark.png"
+                : "/images/hero-light.png";
+
+        }
+
     }
 
+    // Load saved theme
     const savedTheme = localStorage.getItem("theme");
 
     if (savedTheme === "dark") {
         body.classList.add("dark");
     }
 
-    updateIcons();
+    updateTheme();
 
     function toggleTheme() {
 
@@ -37,7 +51,8 @@ export function initTheme() {
             body.classList.contains("dark") ? "dark" : "light"
         );
 
-        updateIcons();
+        updateTheme();
+
     }
 
     desktopToggle?.addEventListener("click", toggleTheme);

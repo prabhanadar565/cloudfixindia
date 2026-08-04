@@ -4,16 +4,18 @@
 
 .map-section{
     padding:120px 0;
-    background:#F8FAFC;
+    background:var(--bg);
+    transition:background .35s ease;
 }
 
 .map-card{
     margin-top:60px;
-    background:#fff;
+    background:var(--surface);
     border-radius:30px;
     overflow:hidden;
-    box-shadow:0 25px 60px rgba(15,23,42,.08);
-    border:1px solid #E5E7EB;
+    box-shadow:var(--shadow);
+    border:1px solid var(--border);
+    transition:.35s;
 }
 
 .map-card iframe{
@@ -27,7 +29,8 @@
     grid-template-columns:repeat(3,1fr);
     gap:25px;
     padding:35px;
-    background:#fff;
+    background:var(--surface);
+    transition:.35s;
 }
 
 .map-feature{
@@ -35,18 +38,20 @@
     align-items:center;
     justify-content:center;
     gap:12px;
-    background:#EFF6FF;
-    color:#2563EB;
+    background:var(--blue-hover);
+    color:var(--primary);
     padding:20px;
     border-radius:16px;
     font-weight:600;
-    transition:.3s;
+    border:1px solid var(--border);
+    transition:.35s;
 }
 
 .map-feature:hover{
-    background:#2563EB;
+    background:var(--primary);
     color:#fff;
     transform:translateY(-5px);
+    border-color:var(--primary);
 }
 
 /* ==========================================
@@ -91,5 +96,23 @@
     font-size:15px;
     padding:16px;
 }
+
+}
+
+/* ==========================================
+   SMOOTH THEME TRANSITION
+========================================== */
+
+.map-section,
+.map-card,
+.map-info,
+.map-feature{
+
+    transition:
+        background .35s,
+        color .35s,
+        border-color .35s,
+        box-shadow .35s,
+        transform .35s;
 
 }

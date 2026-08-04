@@ -81,9 +81,10 @@ export function hero() {
         <div class="hero-right" data-aos="fade-left">
 
             <img
-                src="/images/hero.png"
-                alt="CloudFix India Hero Image"
-                class="hero-image">
+            id="heroImage"
+            src="/images/hero-light.png"
+            alt="CloudFix India Hero Image"
+            class="hero-image">
 
         </div>
 
