@@ -126,7 +126,7 @@ export function footer() {
 
             <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
 
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.instagram.com/cloudfixindia?igsh=ZGI3bXpmYmIwdm4w&utm_source=qr"><i class="fa-brands fa-instagram"></i></a>
 
             <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
 
