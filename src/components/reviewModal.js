@@ -73,15 +73,21 @@ export function reviewModal() {
             </select>
 
             <textarea
-                id="reviewText"
-                placeholder="Write your experience..."
-                required
-            ></textarea>
+            id="reviewText"
+            maxlength="500"
+            placeholder="Write your experience..."></textarea>
 
-            <button type="submit">
+            <div class="character-counter">
 
+                <span id="reviewCount">0</span>/500
+
+            </div>
+
+            <button
+                type="submit"
+                class="submit-review"
+            >
                 Submit Review
-
             </button>
 
         </form>

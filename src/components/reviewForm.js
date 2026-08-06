@@ -1,23 +1,62 @@
 import { showSuccessModal } from "./successModal";
 import { addReview } from "../firebase/reviews";
 
+function initCharacterCounter(){
+
+    const textarea=document.getElementById("reviewText");
+
+    const counter=document.getElementById("reviewCount");
+
+    if(!textarea || !counter) return;
+
+    textarea.addEventListener("input",()=>{
+
+        const length=textarea.value.length;
+
+        counter.textContent=length;
+
+        const wrapper=counter.parentElement;
+
+        wrapper.classList.remove("warning","danger");
+
+        if(length>=400){
+
+            wrapper.classList.add("warning");
+
+        }
+
+        if(length>=500){
+
+            wrapper.classList.remove("warning");
+
+            wrapper.classList.add("danger");
+
+        }
+
+    });
+
+}
+
 export function initReviewForm() {
+    initCharacterCounter();
 
     const form = document.getElementById("reviewForm");
 
     if (!form) return;
 
     form.addEventListener("submit", async (e) => {
-        console.log("Submit button clicked");
 
         e.preventDefault();
 
         const submitBtn = form.querySelector("button[type='submit']");
 
         submitBtn.disabled = true;
+
+        submitBtn.classList.add("loading");
+
         submitBtn.innerHTML = `
             <i class="fa-solid fa-spinner fa-spin"></i>
-            Submitting...
+            <span>Submitting...</span>
         `;
 
         try {
@@ -68,9 +107,13 @@ export function initReviewForm() {
 
         }
 
-        submitBtn.disabled = false;
+await new Promise(resolve => setTimeout(resolve,1000));
 
-        submitBtn.innerHTML = "Submit Review";
+submitBtn.disabled = false;
+
+submitBtn.classList.remove("success");
+
+submitBtn.innerHTML="Submit Review";
 
     });
 

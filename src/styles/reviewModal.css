@@ -229,3 +229,61 @@ padding:22px;
 }
 
 }
+
+/* Character Counter */
+
+.character-counter{
+
+    margin-top:8px;
+
+    text-align:right;
+
+    font-size:14px;
+
+    color:#64748B;
+
+}
+
+.character-counter.warning{
+
+    color:#F59E0B;
+
+}
+
+.character-counter.danger{
+
+    color:#EF4444;
+
+    font-weight:700;
+
+}
+
+/* Submit Button States */
+
+.submit-review{
+
+    transition:.3s ease;
+
+}
+
+.submit-review.loading{
+
+    background:#2563EB;
+
+    cursor:not-allowed;
+
+    opacity:.9;
+
+}
+
+.submit-review.success{
+
+    background:#16A34A;
+
+}
+
+.submit-review i{
+
+    margin-right:10px;
+
+}
