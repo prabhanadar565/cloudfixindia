@@ -25,31 +25,7 @@ professional and affordable IT services across Mumbai.
 
 <div class="swiper testimonialSwiper">
 
-<div class="swiper-wrapper">
-
-${card(
-"Rahul Sharma",
-"Andheri, Mumbai",
-"My laptop suddenly stopped working before an important office presentation. CloudFix India reached my home within two hours and fixed everything professionally. Highly recommended!"
-)}
-
-${card(
-"Priya Mehta",
-"Powai, Mumbai",
-"Windows installation and Microsoft Office setup were completed quickly. The technician was polite and explained everything clearly."
-)}
-
-${card(
-"Amit Patel",
-"Navi Mumbai",
-"I upgraded my laptop with SSD and RAM. The performance improvement is amazing. Genuine products and reasonable pricing."
-)}
-
-${card(
-"Neha Joshi",
-"Thane",
-"My MacBook was overheating badly. CloudFix India cleaned it, replaced the thermal paste and now it's working perfectly."
-)}
+<div class="swiper-wrapper" id="reviewsContainer">
 
 </div>
 
@@ -64,6 +40,18 @@ ${card(
 </div>
 
 </section>
+
+<div class="review-action">
+
+    <h3>Enjoyed our service?</h3>
+
+    <p>Share your experience with other customers.</p>
+
+    <button id="openReview" class="review-btn">
+        ⭐ Write a Review
+    </button>
+
+</div>
 
 `;
 }

@@ -1,0 +1,97 @@
+.success-modal{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+    animation:fadeIn .25s;
+
+}
+
+.success-card{
+
+    width:420px;
+    max-width:90%;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.18);
+
+}
+
+.success-icon{
+
+    font-size:70px;
+
+    color:#22C55E;
+
+    margin-bottom:15px;
+
+}
+
+.success-card h2{
+
+    margin-bottom:15px;
+
+}
+
+.success-card p{
+
+    color:#64748B;
+
+    line-height:1.7;
+
+}
+
+.success-card button{
+
+    margin-top:25px;
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2563EB;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+}
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+}
+
+to{
+
+opacity:1;
+
+}
+
+}

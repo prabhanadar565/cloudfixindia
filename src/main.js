@@ -23,6 +23,8 @@ import "./styles/map.css";
 import "./styles/stats.css";
 import "./styles/mobileBar.css";
 import "./styles/theme.css";
+import "./styles/reviewModal.css";
+import "./styles/successModal.css";
 
 import { navbar } from "./components/navbar";
 import { hero } from "./components/hero";
@@ -46,7 +48,13 @@ import { stats } from "./components/stats";
 import { initStats } from "./components/statsController";
 import { mobileBar } from "./components/mobileBar";
 import { initTheme } from "./components/themeController";
+import { loadLiveTestimonials } from "./components/liveTestimonials";
+import { reviewModal } from "./components/reviewModal";
+import { initReviewModal } from "./components/reviewController";
+import { initReviewForm } from "./components/reviewForm";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+
+async function initApp() {
 
 document.querySelector("#app").innerHTML = `
 ${navbar()}
@@ -65,8 +73,10 @@ ${footer()}
 ${floatingWhatsapp()}
 ${mobileBar()}
 ${scrollTopButton()}
+${reviewModal()}
 `;
 
+await loadLiveTestimonials();
 initSwiper();
 initContactForm();
 initScrollTop();
@@ -74,6 +84,8 @@ initNavbar();
 initTheme();
 initFaq();
 initStats();
+initReviewModal();
+initReviewForm();
 
 AOS.init({
     duration: 800,
@@ -81,3 +93,7 @@ AOS.init({
     offset: 100,
     easing: "ease-out-cubic"
 });
+
+}
+
+initApp();
