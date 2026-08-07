@@ -41,7 +41,7 @@ ${message}
 Please contact me.`;
 
         const url =
-`https://wa.me/918097716336?text=${encodeURIComponent(text)}`;
+`https://wa.me/919987322608?text=${encodeURIComponent(text)}`;
 
         window.open(url, "_blank");
 

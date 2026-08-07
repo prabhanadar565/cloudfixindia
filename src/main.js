@@ -25,6 +25,8 @@ import "./styles/mobileBar.css";
 import "./styles/theme.css";
 import "./styles/reviewModal.css";
 import "./styles/successModal.css";
+import "./styles/booking.css";
+import "./styles/variables.css";
 
 import { navbar } from "./components/navbar";
 import { hero } from "./components/hero";
@@ -52,6 +54,7 @@ import { loadLiveTestimonials } from "./components/liveTestimonials";
 import { reviewModal } from "./components/reviewModal";
 import { initReviewModal } from "./components/reviewController";
 import { initReviewForm } from "./components/reviewForm";
+import { initBookingModal } from "./components/booking/bookingController";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 async function initApp() {
@@ -86,6 +89,7 @@ initFaq();
 initStats();
 initReviewModal();
 initReviewForm();
+initBookingModal();
 
 AOS.init({
     duration: 800,

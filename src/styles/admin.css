@@ -1,0 +1,209 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,sans-serif;
+    background:#F1F5F9;
+}
+
+.admin-layout{
+    display:grid;
+    grid-template-columns:260px 1fr;
+    min-height:100vh;
+}
+
+.sidebar{
+    background:#0F172A;
+    color:white;
+    padding:30px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:800;
+    margin-bottom:50px;
+}
+
+.logo span{
+    color:#3B82F6;
+}
+
+.sidebar nav{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+    background:#2563EB;
+}
+
+.content{
+    padding:40px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+    margin:35px 0;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.card h3{
+    color:#64748B;
+    margin-bottom:12px;
+}
+
+.card span{
+    font-size:36px;
+    font-weight:700;
+    color:#2563EB;
+}
+
+.table{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.table-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.review-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:20px;
+    margin-bottom:15px;
+    border:1px solid #E2E8F0;
+    border-radius:14px;
+    background:#fff;
+}
+
+.review-info h4{
+    margin-bottom:6px;
+}
+
+.review-info p{
+    margin:6px 0;
+    color:#475569;
+}
+
+.review-actions{
+    display:flex;
+    gap:10px;
+}
+
+.review-actions button{
+    border:none;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.approve{
+    background:#22C55E;
+    color:#fff;
+}
+
+.reject{
+    background:#F59E0B;
+    color:#fff;
+}
+
+.delete{
+    background:#EF4444;
+    color:#fff;
+}
+
+/* Dashboard Cards */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+}
+
+.pending .card-icon {
+    background: #FFF7D6;
+}
+
+.approved .card-icon {
+    background: #DCFCE7;
+}
+
+.rejected .card-icon {
+    background: #FEE2E2;
+}
+
+.card-info h2 {
+    font-size: 36px;
+    margin: 6px 0;
+    color: #2563EB;
+}
+
+.card-info h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.card-info p {
+    margin: 0;
+    color: #64748B;
+    font-size: 14px;
+}

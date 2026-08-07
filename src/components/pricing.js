@@ -106,7 +106,7 @@ ${item}
       whatsapp
         ? `
 <a
-href="https://wa.me/918097716336"
+href="https://wa.me/919987322608"
 target="_blank"
 class="price-btn">
 
@@ -116,7 +116,7 @@ Book on WhatsApp
 `
         : `
 <a
-href="tel:+918097716336"
+href="tel:+919987322608"
 class="price-btn secondary">
 
 Call Now

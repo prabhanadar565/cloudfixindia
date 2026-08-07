@@ -21,7 +21,7 @@ export function footer() {
 
                 <div class="footer-buttons">
 
-                    <a href="https://wa.me/918097716336"
+                    <a href="https://wa.me/919987322608"
                        target="_blank"
                        class="footer-btn whatsapp">
 
@@ -30,7 +30,7 @@ export function footer() {
 
                     </a>
 
-                    <a href="tel:+918097716336"
+                    <a href="tel:+919987322608"
                        class="footer-btn call">
 
                         <i class="fa-solid fa-phone"></i>
@@ -96,7 +96,7 @@ export function footer() {
 
                     <li>
                         <i class="fa-solid fa-phone"></i>
-                        <a href="tel:+918097716336">+91 80977 16336</a>
+                        <a href="tel:+919987322608">+91 80977 16336</a>
                     </li>
 
                     <li>
@@ -132,7 +132,7 @@ export function footer() {
 
             <a href="#"><i class="fa-brands fa-youtube"></i></a>
 
-            <a href="https://wa.me/918097716336" target="_blank">
+            <a href="https://wa.me/919987322608" target="_blank">
                 <i class="fa-brands fa-whatsapp"></i>
             </a>
 

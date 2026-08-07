@@ -163,7 +163,7 @@ function serviceCard(icon, title, features, price, badge = "") {
     </div>
 
     <a
-        href="https://wa.me/918097716336"
+        href="https://wa.me/919987322608"
         target="_blank"
         class="book-btn">
 

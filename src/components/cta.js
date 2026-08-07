@@ -36,7 +36,7 @@ export function cta() {
                 <div class="cta-buttons">
 
                     <a
-                        href="https://wa.me/918097716336"
+                        href="https://wa.me/919987322608"
                         target="_blank"
                         class="cta-primary">
 
@@ -47,7 +47,7 @@ export function cta() {
                     </a>
 
                     <a
-                        href="tel:+918097716336"
+                        href="tel:+919987322608"
                         class="cta-secondary">
 
                         <i class="fa-solid fa-phone"></i>

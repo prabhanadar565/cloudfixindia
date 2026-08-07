@@ -10,43 +10,58 @@ import {
 
 import { db } from "./firebase";
 
+// ==============================
 // Add Review
+// ==============================
+
 export async function addReview(review) {
 
-    await addDoc(collection(db, "reviews"), {
+  await addDoc(collection(db, "reviews"), {
 
-        name: review.name,
+    name: review.name,
 
-        city: review.city,
+    city: review.city,
 
-        service: review.service,
+    service: review.service,
 
-        rating: review.rating,
+    rating: review.rating,
 
-        review: review.review,
+    review: review.review,
 
-        approved: false,
+    verified: false,
 
-        verified: false,
+    status: "pending",
 
-        createdAt: Timestamp.now()
+    createdAt: Timestamp.now()
 
-    });
+  });
 
 }
 
-// Get Approved Reviews
+// ==============================
+// Approved Reviews
+// ==============================
+
 export async function getApprovedReviews() {
+
   const q = query(
+
     collection(db, "reviews"),
-    where("approved", "==", true),
+
+    where("status", "==", "approved"),
+
     orderBy("createdAt", "desc")
+
   );
 
   const snapshot = await getDocs(q);
 
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
+  return snapshot.docs.map(document => ({
+
+    id: document.id,
+
+    ...document.data()
+
   }));
+
 }

@@ -37,7 +37,7 @@ export function contact() {
 
                         <h3>Call Us</h3>
 
-                        <a href="tel:+918097716336">
+                        <a href="tel:+919987322608">
                             +91 80977 16336
                         </a>
 

@@ -41,27 +41,26 @@ export function hero() {
 
             <div class="hero-buttons">
 
-                <a
-                    href="https://wa.me/918097716336"
-                    target="_blank"
-                    class="btn-primary">
+    <button
+        id="bookServiceBtn"
+        class="btn-primary">
 
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Book on WhatsApp
+        <i class="fa-solid fa-calendar-check"></i>
+        Book Service
 
-                </a>
+    </button>
 
-                <a
-                    href="tel:+918097716336"
-                    class="btn-secondary">
+    <a
+        href="https://wa.me/919987322608"
+        target="_blank"
+        class="btn-secondary">
 
-                    <i class="fa-solid fa-phone"></i>
-                    Call Now
+        <i class="fa-brands fa-whatsapp"></i>
+        Book on WhatsApp
 
-                </a>
+    </a>
 
-            </div>
-
+</div>
             <div class="hero-highlights">
 
                 <span>🛡 Genuine Products</span>
