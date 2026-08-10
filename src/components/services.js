@@ -163,14 +163,17 @@ function serviceCard(icon, title, features, price, badge = "") {
     </div>
 
     <a
-        href="https://wa.me/919987322608"
-        target="_blank"
-        class="book-btn">
+    href="https://wa.me/919987322608?text=${encodeURIComponent(
+        `Hi CloudFix India! I’m interested in your ${title} service. Could you please help me with the details?`
+    )}"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="book-btn">
 
-        <i class="fa-brands fa-whatsapp"></i>
-        Book on WhatsApp
+    <i class="fa-brands fa-whatsapp"></i>
+    Book on WhatsApp
 
-    </a>
+</a>
 
 </div>
 

@@ -14,7 +14,7 @@ export function hero() {
 
             <h1>
                 We Fix.<br>
-                <span>You Relax. 🚀</span>
+                <span>You Relax.</span>
             </h1>
 
             <p>
@@ -50,15 +50,18 @@ export function hero() {
 
     </button>
 
-    <a
-        href="https://wa.me/919987322608"
-        target="_blank"
-        class="btn-secondary">
+        <a
+            href="https://wa.me/919987322608?text=${encodeURIComponent(
+                "Hi CloudFix India! I found your website and would like to book an IT service. Could you please assist me?"
+            )}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary">
 
-        <i class="fa-brands fa-whatsapp"></i>
-        Book on WhatsApp
+            <i class="fa-brands fa-whatsapp"></i>
+            Book on WhatsApp
 
-    </a>
+        </a>
 
 </div>
             <div class="hero-highlights">

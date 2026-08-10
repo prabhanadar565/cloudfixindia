@@ -106,11 +106,14 @@ ${item}
       whatsapp
         ? `
 <a
-href="https://wa.me/919987322608"
-target="_blank"
-class="price-btn">
+    href="https://wa.me/919987322608?text=${encodeURIComponent(
+        `Hi CloudFix India! I’m interested in your ${title} plan priced at ${price}. Could you please provide more details?`
+    )}"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="price-btn">
 
-Book on WhatsApp
+    Book on WhatsApp
 
 </a>
 `

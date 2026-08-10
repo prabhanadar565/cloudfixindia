@@ -45,16 +45,17 @@ export function navbar() {
 
     </button>
 
-    <a
-        href="https://wa.me/919987322608?text=Hi%20CloudFix%20India,%20I%20need%20IT%20support."
-        target="_blank"
-        class="whatsapp">
+<a
+    href="https://wa.me/919987322608?text=Hi%20CloudFix%20India!%20I%20found%20your%20website%20and%20would%20like%20to%20know%20more%20about%20your%20IT%20services."
+    target="_blank"
+    rel="noopener noreferrer"
+    class="whatsapp">
 
-        <i class="fa-brands fa-whatsapp"></i>
+    <i class="fa-brands fa-whatsapp"></i>
 
-        WhatsApp
+    WhatsApp
 
-    </a>
+</a>
 
 </div>
 
@@ -159,16 +160,17 @@ export function navbar() {
     </ul>
 
 
-    <a
-        href="https://wa.me/919987322608?text=Hi%20CloudFix%20India,%20I%20need%20IT%20support."
-        target="_blank"
-        class="mobile-whatsapp">
+<a
+    href="https://wa.me/919987322608?text=Hi%20CloudFix%20India!%20I%20found%20your%20website%20and%20would%20like%20to%20know%20more%20about%20your%20IT%20services."
+    target="_blank"
+    rel="noopener noreferrer"
+    class="mobile-whatsapp">
 
-        <i class="fa-brands fa-whatsapp"></i>
+    <i class="fa-brands fa-whatsapp"></i>
 
-        Book on WhatsApp
+    Book on WhatsApp
 
-    </a>
+</a>
 
 </aside>
 `;
