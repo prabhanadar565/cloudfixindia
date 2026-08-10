@@ -18,7 +18,7 @@ export function renderLayout() {
 
         <nav>
 
-            <a class="active">
+            <a id="dashboardNav" class="active">
 
                 <i class="fa-solid fa-gauge"></i>
 
@@ -34,7 +34,7 @@ export function renderLayout() {
 
             </a>
 
-            <a>
+            <a id="bookingsNav">
 
                 <i class="fa-solid fa-calendar"></i>
 

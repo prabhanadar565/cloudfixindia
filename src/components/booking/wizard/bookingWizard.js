@@ -1,6 +1,7 @@
 import { renderServiceStep } from "./stepService";
 import { renderCustomerStep } from "./stepCustomer";
 import { renderScheduleStep } from "./stepSchedule";
+import { renderReviewStep } from "./stepReview";
 import { renderSuccessStep } from "./stepSuccess";
 
 export const bookingData = {
@@ -35,13 +36,23 @@ export function startBookingWizard() {
 
 export function nextStep() {
 
-    if (currentStep < 4) {
+    if (currentStep < 5) {
 
         currentStep++;
 
         renderWizard();
 
     }
+
+}
+
+export function goToStep(step) {
+
+    if (step < 1 || step > 5) return;
+
+    currentStep = step;
+
+    renderWizard();
 
 }
 
@@ -59,7 +70,7 @@ export function previousStep() {
 
 export function goToSuccess() {
 
-    currentStep = 4;
+    currentStep = 5;
 
     renderWizard();
 
@@ -93,6 +104,12 @@ export function renderWizard() {
 
         case 4:
 
+            container.innerHTML = renderReviewStep();
+
+            break;
+
+        case 5:
+
             container.innerHTML = renderSuccessStep();
 
             break;
@@ -111,17 +128,19 @@ function updateProgress() {
 
     const titles = [
 
-        "",
+    "",
 
-        "Choose Service",
+    "Choose Service",
 
-        "Customer Details",
+    "Customer Details",
 
-        "Schedule Visit",
+    "Schedule Visit",
 
-        "Booking Confirmed"
+    "Review Booking",
 
-    ];
+    "Booking Confirmed"
+
+];
 
     if (title) {
 
@@ -131,7 +150,7 @@ function updateProgress() {
 
     if (progress) {
 
-        progress.style.width = `${currentStep * 25}%`;
+        progress.style.width = `${currentStep * 20}%`;
 
     }
 

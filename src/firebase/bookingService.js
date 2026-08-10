@@ -1,122 +1,219 @@
 import {
     collection,
-    addDoc,
     getDocs,
     query,
     where,
     orderBy,
     updateDoc,
     deleteDoc,
-    doc,
-    Timestamp
+    doc
 } from "firebase/firestore";
 
 import { db } from "./firebase";
 
+
 const bookingRef = collection(db, "bookings");
 
-// --------------------
-// Add Booking
-// --------------------
-export async function addBooking(booking) {
 
-    await addDoc(bookingRef, {
+// ==========================================
+// Get All Bookings
+// ==========================================
 
-        name: booking.name,
-
-        phone: booking.phone,
-
-        email: booking.email,
-
-        service: booking.service,
-
-        date: booking.date,
-
-        time: booking.time,
-
-        address: booking.address,
-
-        problem: booking.problem,
-
-        status: "pending",
-
-        createdAt: Timestamp.now()
-
-    });
-
-}
-
-// --------------------
-// Get Pending Bookings
-// --------------------
-export async function getPendingBookings() {
+export async function getAllBookings() {
 
     const q = query(
-
         bookingRef,
-
-        where("status", "==", "pending"),
-
         orderBy("createdAt", "desc")
-
     );
 
     const snapshot = await getDocs(q);
 
-    return snapshot.docs.map(doc => ({
+    return snapshot.docs.map((bookingDoc) => ({
 
-        id: doc.id,
+        id: bookingDoc.id,
 
-        ...doc.data()
+        ...bookingDoc.data()
 
     }));
 
 }
 
-// --------------------
+
+// ==========================================
+// Get Pending Bookings
+// ==========================================
+
+export async function getPendingBookings() {
+
+    const q = query(
+        bookingRef,
+
+        where("status", "==", "pending"),
+
+        orderBy("createdAt", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map((bookingDoc) => ({
+
+        id: bookingDoc.id,
+
+        ...bookingDoc.data()
+
+    }));
+
+}
+
+
+// ==========================================
+// Get Accepted Bookings
+// ==========================================
+
+export async function getAcceptedBookings() {
+
+    const q = query(
+        bookingRef,
+
+        where("status", "==", "accepted"),
+
+        orderBy("createdAt", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map((bookingDoc) => ({
+
+        id: bookingDoc.id,
+
+        ...bookingDoc.data()
+
+    }));
+
+}
+
+
+// ==========================================
+// Get Completed Bookings
+// ==========================================
+
+export async function getCompletedBookings() {
+
+    const q = query(
+        bookingRef,
+
+        where("status", "==", "completed"),
+
+        orderBy("createdAt", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map((bookingDoc) => ({
+
+        id: bookingDoc.id,
+
+        ...bookingDoc.data()
+
+    }));
+
+}
+
+
+// ==========================================
+// Get Cancelled Bookings
+// ==========================================
+
+export async function getCancelledBookings() {
+
+    const q = query(
+        bookingRef,
+
+        where("status", "==", "cancelled"),
+
+        orderBy("createdAt", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map((bookingDoc) => ({
+
+        id: bookingDoc.id,
+
+        ...bookingDoc.data()
+
+    }));
+
+}
+
+
+// ==========================================
 // Accept Booking
-// --------------------
+// ==========================================
+
 export async function acceptBooking(id) {
 
-    await updateDoc(doc(db, "bookings", id), {
+    await updateDoc(
 
-        status: "accepted"
+        doc(db, "bookings", id),
 
-    });
+        {
+            status: "accepted"
+        }
+
+    );
 
 }
 
-// --------------------
+
+// ==========================================
 // Complete Booking
-// --------------------
+// ==========================================
+
 export async function completeBooking(id) {
 
-    await updateDoc(doc(db, "bookings", id), {
+    await updateDoc(
 
-        status: "completed"
+        doc(db, "bookings", id),
 
-    });
+        {
+            status: "completed"
+        }
+
+    );
 
 }
 
-// --------------------
+
+// ==========================================
 // Cancel Booking
-// --------------------
+// ==========================================
+
 export async function cancelBooking(id) {
 
-    await updateDoc(doc(db, "bookings", id), {
+    await updateDoc(
 
-        status: "cancelled"
+        doc(db, "bookings", id),
 
-    });
+        {
+            status: "cancelled"
+        }
+
+    );
 
 }
 
-// --------------------
+
+// ==========================================
 // Delete Booking
-// --------------------
+// ==========================================
+
 export async function deleteBooking(id) {
 
-    await deleteDoc(doc(db, "bookings", id));
+    await deleteDoc(
+
+        doc(db, "bookings", id)
+
+    );
 
 }
