@@ -14,7 +14,7 @@ export function hero() {
 
             <h1>
                 We Fix.<br>
-                <span>You Relax.</span>
+                <span>You Relax. 🚀</span>
             </h1>
 
             <p>
