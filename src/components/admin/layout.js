@@ -72,7 +72,7 @@ export function renderLayout() {
 
     </aside>
 
-    <main class="content">
+    <main class="content" id="adminContent">
 
         <h1>Dashboard</h1>
 
