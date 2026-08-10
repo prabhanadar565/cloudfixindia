@@ -586,3 +586,575 @@ transform:scale(1);
     -ms-overflow-style:none;
 
 }
+
+/* ===========================
+   Schedule Step
+=========================== */
+
+.schedule-section{
+
+    margin-top:32px;
+
+}
+
+
+.schedule-section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    margin-bottom:18px;
+
+}
+
+
+.schedule-section-title > i{
+
+    width:46px;
+
+    height:46px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:#EEF5FF;
+
+    color:var(--primary);
+
+    font-size:19px;
+
+}
+
+
+.schedule-section-title h3{
+
+    margin:0 0 3px;
+
+    font-size:18px;
+
+    color:var(--text);
+
+}
+
+
+.schedule-section-title span{
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+
+/* ===========================
+   Date Cards
+=========================== */
+
+.date-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(7, minmax(80px, 1fr));
+
+    gap:12px;
+
+}
+
+
+.date-card{
+
+    border:2px solid var(--border);
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:16px 10px;
+
+    min-height:105px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:4px;
+
+    transition:.25s;
+
+}
+
+
+.date-card:hover{
+
+    border-color:var(--primary);
+
+    transform:translateY(-3px);
+
+}
+
+
+.date-card.selected{
+
+    background:var(--primary);
+
+    border-color:var(--primary);
+
+    color:#fff;
+
+    box-shadow:0 8px 20px rgba(37,99,235,.22);
+
+}
+
+
+.date-day{
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+.date-card strong{
+
+    font-size:25px;
+
+    line-height:1;
+
+}
+
+
+.date-card small{
+
+    font-size:12px;
+
+    opacity:.8;
+
+}
+
+
+/* ===========================
+   Time Cards
+=========================== */
+
+.time-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap:12px;
+
+}
+
+
+.time-card{
+
+    border:2px solid var(--border);
+
+    background:#fff;
+
+    color:var(--text);
+
+    border-radius:13px;
+
+    padding:13px 12px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+
+.time-card i{
+
+    margin-right:6px;
+
+    color:var(--primary);
+
+}
+
+
+.time-card:hover{
+
+    border-color:var(--primary);
+
+    transform:translateY(-2px);
+
+}
+
+
+.time-card.selected{
+
+    background:var(--primary);
+
+    border-color:var(--primary);
+
+    color:#fff;
+
+}
+
+
+.time-card.selected i{
+
+    color:#fff;
+
+}
+
+
+/* ===========================
+   Problem
+=========================== */
+
+.schedule-problem{
+
+    width:100%;
+
+    resize:vertical;
+
+    min-height:130px;
+
+    padding:16px 18px;
+
+    border:2px solid var(--border);
+
+    border-radius:14px;
+
+    background:#fff;
+
+    color:var(--text);
+
+    font-family:inherit;
+
+    font-size:15px;
+
+    line-height:1.6;
+
+    transition:.25s;
+
+}
+
+
+.schedule-problem:focus{
+
+    outline:none;
+
+    border-color:var(--primary);
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.12);
+
+}
+
+
+@media(max-width:850px){
+
+    .date-grid{
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+    }
+
+    .time-grid{
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+}
+
+
+@media(max-width:550px){
+
+    .date-grid{
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+    .time-grid{
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+/* ===========================
+   Review Step
+=========================== */
+
+.review-step{
+
+    max-width:850px;
+
+    margin:0 auto;
+
+}
+
+
+.review-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    padding:20px;
+
+    margin-top:16px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+
+.review-icon{
+
+    width:50px;
+
+    height:50px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:#EEF5FF;
+
+    color:var(--primary);
+
+    font-size:19px;
+
+}
+
+
+.review-content{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+
+    min-width:0;
+
+}
+
+
+.review-label{
+
+    font-size:12px;
+
+    font-weight:600;
+
+    color:var(--text-light);
+
+    text-transform:uppercase;
+
+    letter-spacing:.5px;
+
+}
+
+
+.review-content strong{
+
+    font-size:17px;
+
+    color:var(--text);
+
+    word-break:break-word;
+
+}
+
+
+.review-content span:not(.review-label){
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+
+.review-content span i{
+
+    margin-right:5px;
+
+}
+
+
+.review-edit{
+
+    border:none;
+
+    background:#EEF5FF;
+
+    color:var(--primary);
+
+    padding:8px 14px;
+
+    border-radius:9px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+.review-edit:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+
+.review-problem{
+
+    margin-top:20px;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    background:#F8FAFC;
+
+    border:1px solid var(--border);
+
+}
+
+
+.review-problem-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+
+.review-problem-header i{
+
+    color:var(--primary);
+
+}
+
+
+.review-problem p{
+
+    margin:12px 0 0;
+
+    color:var(--text-light);
+
+    line-height:1.6;
+
+    white-space:pre-wrap;
+
+}
+
+
+.review-notice{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:flex-start;
+
+    margin-top:20px;
+
+    padding:15px 18px;
+
+    border-radius:12px;
+
+    background:#EEF5FF;
+
+    color:#1E40AF;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+
+.review-notice i{
+
+    margin-top:3px;
+
+}
+
+
+@media(max-width:600px){
+
+    .review-card{
+
+        align-items:flex-start;
+
+        flex-wrap:wrap;
+
+    }
+
+    .review-content{
+
+        width:calc(100% - 66px);
+
+    }
+
+    .review-edit{
+
+        margin-left:66px;
+
+    }
+
+}
