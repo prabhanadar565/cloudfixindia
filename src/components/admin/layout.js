@@ -18,57 +18,39 @@ export function renderLayout() {
 
         <nav>
 
-            <a id="dashboardNav" class="active">
+    <a id="dashboardNav" class="active">
+        <i class="fa-solid fa-gauge"></i>
+        Dashboard
+    </a>
 
-                <i class="fa-solid fa-gauge"></i>
+    <a id="reviewsNav">
+        <i class="fa-solid fa-star"></i>
+        Reviews
+    </a>
 
-                Dashboard
+    <a id="bookingsNav">
+        <i class="fa-solid fa-calendar"></i>
+        Bookings
+    </a>
 
-            </a>
+    <a id="customersNav">
+        <i class="fa-solid fa-users"></i>
+        Customers
+    </a>
 
-            <a>
+    <a id="settingsNav">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+    </a>
 
-                <i class="fa-solid fa-star"></i>
+    <hr>
 
-                Reviews
+    <a id="logoutBtn">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+    </a>
 
-            </a>
-
-            <a id="bookingsNav">
-
-                <i class="fa-solid fa-calendar"></i>
-
-                Bookings
-
-            </a>
-
-            <a>
-
-                <i class="fa-solid fa-users"></i>
-
-                Customers
-
-            </a>
-
-            <a>
-
-                <i class="fa-solid fa-gear"></i>
-
-                Settings
-
-            </a>
-
-            <hr>
-
-            <a id="logoutBtn">
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-
-                Logout
-
-            </a>
-
-        </nav>
+</nav>
 
     </aside>
 

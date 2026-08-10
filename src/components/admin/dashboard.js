@@ -5,6 +5,11 @@ import { loadReviews } from "./reviewsTable";
 import { loadBookings } from "./bookingsTable";
 import { initLogout } from "./logout";
 
+import {
+    getCustomers,
+    getCustomerBookings
+} from "./customerService";
+
 
 // ==========================================
 // AUTHENTICATION
@@ -23,22 +28,17 @@ checkAuth((user) => {
 
 
 // ==========================================
-// INITIALIZE ADMIN DASHBOARD
+// INITIALIZE DASHBOARD
 // ==========================================
 
 async function initDashboard() {
 
-    // Render sidebar + dashboard layout
     renderLayout();
 
-    // Initialize logout immediately
-    // so logout still works if Firestore has an error
     initLogout();
 
-    // Initialize sidebar navigation
     initNavigation();
 
-    // Load dashboard data
     try {
 
         await loadDashboardStats();
@@ -57,7 +57,7 @@ async function initDashboard() {
 
 
 // ==========================================
-// SIDEBAR NAVIGATION
+// NAVIGATION
 // ==========================================
 
 function initNavigation() {
@@ -78,13 +78,9 @@ function initNavigation() {
         document.getElementById("settingsNav");
 
 
-    // ------------------------------------------
-    // DASHBOARD
-    // ------------------------------------------
-
     dashboardNav?.addEventListener(
         "click",
-        async (event) => {
+        (event) => {
 
             event.preventDefault();
 
@@ -96,13 +92,9 @@ function initNavigation() {
     );
 
 
-    // ------------------------------------------
-    // REVIEWS
-    // ------------------------------------------
-
     reviewsNav?.addEventListener(
         "click",
-        async (event) => {
+        (event) => {
 
             event.preventDefault();
 
@@ -113,10 +105,6 @@ function initNavigation() {
         }
     );
 
-
-    // ------------------------------------------
-    // BOOKINGS
-    // ------------------------------------------
 
     bookingsNav?.addEventListener(
         "click",
@@ -132,27 +120,19 @@ function initNavigation() {
     );
 
 
-    // ------------------------------------------
-    // CUSTOMERS
-    // ------------------------------------------
-
     customersNav?.addEventListener(
         "click",
-        (event) => {
+        async (event) => {
 
             event.preventDefault();
 
             setActiveNav(customersNav);
 
-            showCustomers();
+            await showCustomers();
 
         }
     );
 
-
-    // ------------------------------------------
-    // SETTINGS
-    // ------------------------------------------
 
     settingsNav?.addEventListener(
         "click",
@@ -171,7 +151,7 @@ function initNavigation() {
 
 
 // ==========================================
-// ACTIVE SIDEBAR ITEM
+// ACTIVE NAVIGATION
 // ==========================================
 
 function setActiveNav(activeElement) {
@@ -186,14 +166,16 @@ function setActiveNav(activeElement) {
 
 
     if (activeElement) {
+
         activeElement.classList.add("active");
+
     }
 
 }
 
 
 // ==========================================
-// DASHBOARD PAGE
+// DASHBOARD
 // ==========================================
 
 function showDashboard() {
@@ -202,10 +184,13 @@ function showDashboard() {
         document.getElementById("adminContent");
 
     if (!content) {
+
         console.error(
             "adminContent element not found"
         );
+
         return;
+
     }
 
 
@@ -213,9 +198,9 @@ function showDashboard() {
 
         <h1>Dashboard</h1>
 
+
         <div class="cards">
 
-            <!-- Pending Reviews -->
 
             <div class="card pending">
 
@@ -242,8 +227,6 @@ function showDashboard() {
             </div>
 
 
-            <!-- Approved Reviews -->
-
             <div class="card approved">
 
                 <div class="card-icon">
@@ -269,8 +252,6 @@ function showDashboard() {
             </div>
 
 
-            <!-- Rejected Reviews -->
-
             <div class="card rejected">
 
                 <div class="card-icon">
@@ -295,10 +276,9 @@ function showDashboard() {
 
             </div>
 
+
         </div>
 
-
-        <!-- Pending Reviews -->
 
         <div class="table">
 
@@ -321,16 +301,14 @@ function showDashboard() {
     `;
 
 
-    // Load dashboard information
     loadDashboardStats();
-
     loadReviews();
 
 }
 
 
 // ==========================================
-// BOOKINGS PAGE
+// BOOKINGS
 // ==========================================
 
 async function showBookings() {
@@ -385,10 +363,6 @@ async function showBookings() {
 
                 </div>
 
-                <span id="bookingCount">
-                    Loading...
-                </span>
-
             </div>
 
 
@@ -409,51 +383,13 @@ async function showBookings() {
     `;
 
 
-    try {
-
-        await loadBookings();
-
-    } catch (error) {
-
-        console.error(
-            "Failed to load bookings:",
-            error
-        );
-
-        const table =
-            document.getElementById(
-                "bookingsTable"
-            );
-
-        if (table) {
-
-            table.innerHTML = `
-
-                <div class="booking-empty">
-
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-
-                    <h3>
-                        Unable to load bookings
-                    </h3>
-
-                    <p>
-                        Please refresh the page and try again.
-                    </p>
-
-                </div>
-
-            `;
-
-        }
-
-    }
+    await loadBookings();
 
 }
 
 
 // ==========================================
-// REVIEWS PAGE
+// REVIEWS
 // ==========================================
 
 function showReviews() {
@@ -513,10 +449,686 @@ function showReviews() {
 
 
 // ==========================================
-// CUSTOMERS PAGE
+// CUSTOMERS
 // ==========================================
 
-function showCustomers() {
+async function showCustomers() {
+
+    const content =
+        document.getElementById("adminContent");
+
+    if (!content) {
+
+        console.error(
+            "adminContent element not found"
+        );
+
+        return;
+
+    }
+
+
+    // ------------------------------------------
+    // CUSTOMER PAGE UI
+    // ------------------------------------------
+
+    content.innerHTML = `
+
+        <div class="page-heading">
+
+            <div>
+
+                <h1>
+                    Customers
+                </h1>
+
+                <p>
+                    Manage customers from your service bookings.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table customer-table-container">
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Customer List
+                    </h2>
+
+                    <p>
+                        Customers are automatically grouped
+                        from your bookings.
+                    </p>
+
+                </div>
+
+
+                <span id="customerCount">
+                    Loading...
+                </span>
+
+            </div>
+
+
+            <!-- SEARCH -->
+
+            <div class="customer-search-container">
+
+                <div class="customer-search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="customerSearch"
+                        placeholder="Search by name, phone, email or service..."
+                        autocomplete="off"
+                    />
+
+                    <button
+                        id="clearCustomerSearch"
+                        type="button"
+                        title="Clear search"
+                        style="display: none;"
+                    >
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div id="customersTable">
+
+                <div class="booking-loading">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    Loading customers...
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        // ------------------------------------------
+        // LOAD CUSTOMERS
+        // ------------------------------------------
+
+        const customers =
+            await getCustomers();
+
+
+        const table =
+            document.getElementById(
+                "customersTable"
+            );
+
+
+        const count =
+            document.getElementById(
+                "customerCount"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "customerSearch"
+            );
+
+
+        const clearButton =
+            document.getElementById(
+                "clearCustomerSearch"
+            );
+
+
+        if (!table) {
+
+            console.error(
+                "customersTable element not found"
+            );
+
+            return;
+
+        }
+
+
+        // ------------------------------------------
+        // RENDER CUSTOMER TABLE
+        // ------------------------------------------
+
+        function renderCustomerTable(
+            filteredCustomers
+        ) {
+
+            // --------------------------------------
+            // UPDATE COUNT
+            // --------------------------------------
+
+            if (count) {
+
+                const total =
+                    filteredCustomers.length;
+
+
+                const text =
+                    total === 1
+                        ? "Customer"
+                        : "Customers";
+
+
+                count.textContent =
+                    `${total} ${text}`;
+
+            }
+
+
+            // --------------------------------------
+            // NO RESULTS
+            // --------------------------------------
+
+            if (
+                filteredCustomers.length === 0
+            ) {
+
+                const searchValue =
+                    searchInput?.value.trim();
+
+
+                if (searchValue) {
+
+                    table.innerHTML = `
+
+                        <div class="booking-empty">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <h3>
+                                No Customers Found
+                            </h3>
+
+                            <p>
+                                No customer matches
+                                "${escapeHtml(searchValue)}".
+                            </p>
+
+                        </div>
+
+                    `;
+
+                } else {
+
+                    table.innerHTML = `
+
+                        <div class="booking-empty">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <h3>
+                                No Customers Yet
+                            </h3>
+
+                            <p>
+                                Customers will appear here
+                                after they make a booking.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                }
+
+                return;
+
+            }
+
+
+            // --------------------------------------
+            // CUSTOMER TABLE
+            // --------------------------------------
+
+            table.innerHTML = `
+
+                <div class="customer-table-wrapper">
+
+                    <table class="customer-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Phone
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Bookings
+                                </th>
+
+                                <th>
+                                    Services
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            ${filteredCustomers.map(
+                                (customer) => {
+
+                                    // Find original
+                                    // customer index
+                                    const originalIndex =
+                                        customers.indexOf(
+                                            customer
+                                        );
+
+
+                                    return `
+
+                                        <tr>
+
+                                            <td>
+
+                                                <div class="customer-name">
+
+                                                    <div class="customer-avatar">
+
+                                                        ${
+                                                            escapeHtml(
+                                                                customer.name
+                                                                    ?.charAt(0)
+                                                                    ?.toUpperCase() || "C"
+                                                            )
+                                                        }
+
+                                                    </div>
+
+
+                                                    <strong>
+
+                                                        ${escapeHtml(
+                                                            customer.name
+                                                        )}
+
+                                                    </strong>
+
+                                                </div>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <a
+                                                    href="tel:${escapeHtml(
+                                                        customer.phone
+                                                    )}"
+                                                    class="customer-phone"
+                                                >
+
+                                                    ${escapeHtml(
+                                                        customer.phone
+                                                    )}
+
+                                                </a>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                ${
+                                                    customer.email
+                                                        ? `
+
+                                                            <a
+                                                                href="mailto:${escapeHtml(
+                                                                    customer.email
+                                                                )}"
+                                                                class="customer-email"
+                                                            >
+
+                                                                ${escapeHtml(
+                                                                    customer.email
+                                                                )}
+
+                                                            </a>
+
+                                                        `
+                                                        : "—"
+                                                }
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <span class="booking-count">
+
+                                                    ${customer.bookings}
+
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <div class="service-list">
+
+                                                    ${
+                                                        customer.services
+                                                            .map(
+                                                                (service) => `
+
+                                                                    <span class="service-tag">
+
+                                                                        ${escapeHtml(
+                                                                            service
+                                                                        )}
+
+                                                                    </span>
+
+                                                                `
+                                                            )
+                                                            .join("")
+                                                    }
+
+                                                </div>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <button
+                                                    class="customer-view-btn"
+                                                    data-customer-index="${originalIndex}"
+                                                >
+
+                                                    <i class="fa-solid fa-eye"></i>
+
+                                                    View
+
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+
+                                    `;
+
+                                }
+                            ).join("")}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            `;
+
+
+            // --------------------------------------
+            // VIEW BUTTONS
+            // --------------------------------------
+
+            document
+                .querySelectorAll(
+                    ".customer-view-btn"
+                )
+                .forEach((button) => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const index =
+                                Number(
+                                    button.dataset.customerIndex
+                                );
+
+
+                            showCustomerDetails(
+                                customers[index]
+                            );
+
+                        }
+                    );
+
+                });
+
+        }
+
+
+        // ------------------------------------------
+        // INITIAL TABLE
+        // ------------------------------------------
+
+        renderCustomerTable(
+            customers
+        );
+
+
+        // ------------------------------------------
+        // SEARCH
+        // ------------------------------------------
+
+        searchInput?.addEventListener(
+            "input",
+            () => {
+
+                const searchValue =
+                    searchInput.value
+                        .trim()
+                        .toLowerCase();
+
+
+                // Show / hide clear button
+
+                if (clearButton) {
+
+                    clearButton.style.display =
+                        searchValue
+                            ? "flex"
+                            : "none";
+
+                }
+
+
+                // No search
+                // Show everything
+
+                if (!searchValue) {
+
+                    renderCustomerTable(
+                        customers
+                    );
+
+                    return;
+
+                }
+
+
+                // ----------------------------------
+                // FILTER CUSTOMERS
+                // ----------------------------------
+
+                const filteredCustomers =
+                    customers.filter(
+                        (customer) => {
+
+                            const name =
+                                String(
+                                    customer.name || ""
+                                ).toLowerCase();
+
+
+                            const phone =
+                                String(
+                                    customer.phone || ""
+                                ).toLowerCase();
+
+
+                            const email =
+                                String(
+                                    customer.email || ""
+                                ).toLowerCase();
+
+
+                            const services =
+                                (
+                                    customer.services || []
+                                )
+                                    .join(" ")
+                                    .toLowerCase();
+
+
+                            return (
+
+                                name.includes(
+                                    searchValue
+                                ) ||
+
+                                phone.includes(
+                                    searchValue
+                                ) ||
+
+                                email.includes(
+                                    searchValue
+                                ) ||
+
+                                services.includes(
+                                    searchValue
+                                )
+
+                            );
+
+                        }
+                    );
+
+
+                renderCustomerTable(
+                    filteredCustomers
+                );
+
+            }
+        );
+
+
+        // ------------------------------------------
+        // CLEAR SEARCH
+        // ------------------------------------------
+
+        clearButton?.addEventListener(
+            "click",
+            () => {
+
+                if (searchInput) {
+
+                    searchInput.value = "";
+
+                    searchInput.focus();
+
+                }
+
+
+                clearButton.style.display =
+                    "none";
+
+
+                renderCustomerTable(
+                    customers
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load customers:",
+            error
+        );
+
+
+        const table =
+            document.getElementById(
+                "customersTable"
+            );
+
+
+        if (table) {
+
+            table.innerHTML = `
+
+                <div class="booking-empty">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    <h3>
+                        Unable to load customers
+                    </h3>
+
+                    <p>
+                        Please refresh the page
+                        and try again.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+}
+
+// ==========================================
+// CUSTOMER DETAILS
+// ==========================================
+
+// ==========================================
+// CUSTOMER DETAILS
+// ==========================================
+
+async function showCustomerDetails(customer) {
 
     const content =
         document.getElementById("adminContent");
@@ -534,33 +1146,195 @@ function showCustomers() {
 
     content.innerHTML = `
 
-        <h1>
-            Customers
-        </h1>
+        <div class="page-heading">
+
+            <div>
+
+                <button
+                    id="backToCustomers"
+                    class="back-btn"
+                >
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Back to Customers
+
+                </button>
+
+
+                <h1>
+                    Customer Details
+                </h1>
+
+            </div>
+
+        </div>
+
+
+        <div class="customer-details-grid">
+
+
+            <div class="table customer-profile-card">
+
+                <div class="customer-profile-header">
+
+                    <div class="customer-avatar large">
+
+                        ${
+                            escapeHtml(
+                                customer.name
+                                    ?.charAt(0)
+                                    ?.toUpperCase() || "C"
+                            )
+                        }
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            ${escapeHtml(
+                                customer.name
+                            )}
+                        </h2>
+
+                        <p>
+                            Customer
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="customer-contact">
+
+                    <div>
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        <a
+                            href="tel:${escapeHtml(
+                                customer.phone
+                            )}"
+                        >
+
+                            ${escapeHtml(
+                                customer.phone
+                            )}
+
+                        </a>
+
+                    </div>
+
+
+                    ${
+                        customer.email
+                            ? `
+
+                                <div>
+
+                                    <i class="fa-solid fa-envelope"></i>
+
+                                    <a
+                                        href="mailto:${escapeHtml(
+                                            customer.email
+                                        )}"
+                                    >
+
+                                        ${escapeHtml(
+                                            customer.email
+                                        )}
+
+                                    </a>
+
+                                </div>
+
+                            `
+                            : ""
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="table">
+
+                <div class="table-header">
+
+                    <h2>
+                        Customer Summary
+                    </h2>
+
+                </div>
+
+
+                <div class="customer-summary">
+
+                    <div>
+
+                        <span>
+                            Total Bookings
+                        </span>
+
+                        <strong>
+                            ${customer.bookings}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Services
+                        </span>
+
+                        <strong>
+                            ${customer.services.length}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
 
         <div class="table">
 
             <div class="table-header">
 
-                <h2>
-                    Customers
-                </h2>
+                <div>
+
+                    <h2>
+                        Booking History
+                    </h2>
+
+                    <p>
+                        All bookings made by this customer.
+                    </p>
+
+                </div>
 
             </div>
 
 
-            <div class="booking-empty">
+            <div id="customerBookingHistory">
 
-                <i class="fa-solid fa-users"></i>
+                <div class="booking-empty">
 
-                <h3>
-                    Customers Management
-                </h3>
+                    <i class="fa-solid fa-spinner fa-spin"></i>
 
-                <p>
-                    This section will be available soon.
-                </p>
+                    <h3>
+                        Loading Booking History...
+                    </h3>
+
+                </div>
 
             </div>
 
@@ -568,11 +1342,290 @@ function showCustomers() {
 
     `;
 
+
+    // ------------------------------------------
+    // BACK BUTTON
+    // ------------------------------------------
+
+    const backButton =
+        document.getElementById(
+            "backToCustomers"
+        );
+
+
+    backButton?.addEventListener(
+        "click",
+        () => {
+
+            showCustomers();
+
+        }
+    );
+
+
+    // ------------------------------------------
+    // LOAD CUSTOMER BOOKINGS
+    // ------------------------------------------
+
+    try {
+
+        const bookings =
+            await getCustomerBookings(
+                customer.phone
+            );
+
+
+        const history =
+            document.getElementById(
+                "customerBookingHistory"
+            );
+
+
+        if (!history) {
+
+            console.error(
+                "customerBookingHistory element not found"
+            );
+
+            return;
+
+        }
+
+
+        // --------------------------------------
+        // NO BOOKINGS
+        // --------------------------------------
+
+        if (bookings.length === 0) {
+
+            history.innerHTML = `
+
+                <div class="booking-empty">
+
+                    <i class="fa-solid fa-calendar-xmark"></i>
+
+                    <h3>
+                        No Booking History
+                    </h3>
+
+                    <p>
+                        No bookings were found for this customer.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        // --------------------------------------
+        // BOOKING CARDS
+        // --------------------------------------
+
+        history.innerHTML = `
+
+            <div class="customer-booking-list">
+
+                ${bookings.map(
+                    (booking) => {
+
+                        const status =
+                            String(
+                                booking.status || "pending"
+                            ).toLowerCase();
+
+
+                        const statusText =
+                            status.charAt(0).toUpperCase() +
+                            status.slice(1);
+
+
+                        const date =
+                            booking.visit?.date ||
+                            booking.date ||
+                            "—";
+
+
+                        const time =
+                            booking.visit?.time ||
+                            booking.time ||
+                            "—";
+
+
+                        return `
+
+                            <div class="customer-booking-card">
+
+                                <div class="customer-booking-header">
+
+                                    <div>
+
+                                        <h3>
+
+                                            ${escapeHtml(
+                                                booking.service
+                                            )}
+
+                                        </h3>
+
+                                        <span class="booking-id">
+
+                                            Booking ID:
+                                            ${escapeHtml(
+                                                booking.id
+                                            )}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <span
+                                        class="booking-status ${escapeHtml(
+                                            status
+                                        )}"
+                                    >
+
+                                        ${escapeHtml(
+                                            statusText
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="customer-booking-details">
+
+
+                                    <div>
+
+                                        <i class="fa-solid fa-calendar"></i>
+
+                                        <strong>
+                                            Date
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHtml(
+                                                date
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <i class="fa-solid fa-clock"></i>
+
+                                        <strong>
+                                            Time
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHtml(
+                                                time
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <i class="fa-solid fa-location-dot"></i>
+
+                                        <strong>
+                                            Address
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHtml(
+                                                booking.address
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <i class="fa-solid fa-screwdriver-wrench"></i>
+
+                                        <strong>
+                                            Problem
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHtml(
+                                                booking.problem
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                ).join("")}
+
+            </div>
+
+        `;
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load customer booking history:",
+            error
+        );
+
+
+        const history =
+            document.getElementById(
+                "customerBookingHistory"
+            );
+
+
+        if (history) {
+
+            history.innerHTML = `
+
+                <div class="booking-empty">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    <h3>
+                        Unable to Load Booking History
+                    </h3>
+
+                    <p>
+                        Please refresh the page and try again.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
 }
 
 
 // ==========================================
-// SETTINGS PAGE
+// SETTINGS
 // ==========================================
 
 function showSettings() {
@@ -618,7 +1671,7 @@ function showSettings() {
                 </h3>
 
                 <p>
-                    This section will be available soon.
+                    Settings will be available soon.
                 </p>
 
             </div>
@@ -626,5 +1679,31 @@ function showSettings() {
         </div>
 
     `;
+
+}
+
+
+// ==========================================
+// HTML ESCAPE
+// ==========================================
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
