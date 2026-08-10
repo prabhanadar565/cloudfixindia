@@ -260,3 +260,49 @@ export async function getCustomerBookings(phone) {
     return bookings;
 
 }
+
+
+// ==========================================
+// GET ALL BOOKINGS FOR CUSTOMER STATISTICS
+// ==========================================
+
+export async function getCustomerBookingsForStats() {
+
+    const bookingsRef =
+        collection(db, "bookings");
+
+    const snapshot =
+        await getDocs(bookingsRef);
+
+
+    const bookings = [];
+
+
+    snapshot.forEach((document) => {
+
+        const booking =
+            document.data();
+
+
+        bookings.push({
+
+            id:
+                document.id,
+
+            status:
+                booking.status || "pending",
+
+            service:
+                booking.service || "",
+
+            createdAt:
+                booking.createdAt || null
+
+        });
+
+    });
+
+
+    return bookings;
+
+}

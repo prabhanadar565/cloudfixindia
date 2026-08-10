@@ -1777,3 +1777,177 @@ body{
     }
 
 }
+
+/* =========================================================
+   CUSTOMER STATISTICS
+   ========================================================= */
+
+.customer-stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 24px;
+}
+
+
+.customer-stat-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    min-height: 105px;
+
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.customer-stat-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #cbd5e1;
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+
+.customer-stat-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: #e8f0ff;
+
+    color: #2563eb;
+
+    font-size: 18px;
+}
+
+
+.customer-stat-icon.pending {
+    background: #fff7d6;
+
+    color: #9a6700;
+}
+
+
+.customer-stat-icon.completed {
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+
+.customer-stat-card span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.customer-stat-card strong {
+    display: block;
+
+    color: #0f172a;
+
+    font-size: 25px;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   CUSTOMER STATISTICS - TABLET
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+    .customer-stats-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   CUSTOMER STATISTICS - MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .customer-stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .customer-stat-card {
+        min-height: 90px;
+
+        padding: 15px;
+
+        gap: 10px;
+    }
+
+
+    .customer-stat-icon {
+        width: 40px;
+        height: 40px;
+
+        font-size: 15px;
+    }
+
+
+    .customer-stat-card strong {
+        font-size: 21px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .customer-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

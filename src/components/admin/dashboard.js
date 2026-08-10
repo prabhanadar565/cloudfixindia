@@ -7,7 +7,8 @@ import { initLogout } from "./logout";
 
 import {
     getCustomers,
-    getCustomerBookings
+    getCustomerBookings,
+    getCustomerBookingsForStats
 } from "./customerService";
 
 
@@ -447,7 +448,6 @@ function showReviews() {
 
 }
 
-
 // ==========================================
 // CUSTOMERS
 // ==========================================
@@ -468,10 +468,6 @@ async function showCustomers() {
     }
 
 
-    // ------------------------------------------
-    // CUSTOMER PAGE UI
-    // ------------------------------------------
-
     content.innerHTML = `
 
         <div class="page-heading">
@@ -490,6 +486,119 @@ async function showCustomers() {
 
         </div>
 
+
+        <!-- CUSTOMER STATISTICS -->
+
+        <div class="customer-stats-grid">
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Customers
+                    </span>
+
+                    <strong id="totalCustomersStat">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Bookings
+                    </span>
+
+                    <strong id="totalBookingsStat">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+                    <i class="fa-solid fa-repeat"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        Repeat Customers
+                    </span>
+
+                    <strong id="repeatCustomersStat">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon pending">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        Pending Bookings
+                    </span>
+
+                    <strong id="pendingBookingsStat">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon completed">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        Completed Bookings
+                    </span>
+
+                    <strong id="completedBookingsStat">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CUSTOMER TABLE -->
 
         <div class="table customer-table-container">
 
@@ -610,6 +719,140 @@ async function showCustomers() {
 
 
         // ------------------------------------------
+        // CALCULATE CUSTOMER STATISTICS
+        // ------------------------------------------
+
+        const totalCustomers =
+            customers.length;
+
+
+        const totalBookings =
+            customers.reduce(
+                (total, customer) => {
+
+                    return total +
+                        Number(
+                            customer.bookings || 0
+                        );
+
+                },
+                0
+            );
+
+
+        const repeatCustomers =
+            customers.filter(
+                (customer) =>
+                    Number(
+                        customer.bookings || 0
+                    ) > 1
+            ).length;
+
+
+        // ------------------------------------------
+        // LOAD ALL BOOKINGS FOR STATUS COUNTS
+        // ------------------------------------------
+
+        let pendingBookings = 0;
+        let completedBookings = 0;
+
+
+        try {
+
+            const allBookings =
+                await getCustomerBookingsForStats();
+
+
+            allBookings.forEach(
+                (booking) => {
+
+                    const status =
+                        String(
+                            booking.status || ""
+                        ).toLowerCase();
+
+
+                    if (
+                        status === "pending"
+                    ) {
+
+                        pendingBookings++;
+
+                    }
+
+
+                    if (
+                        status === "completed"
+                    ) {
+
+                        completedBookings++;
+
+                    }
+
+                }
+            );
+
+        } catch (statsError) {
+
+            console.error(
+                "Unable to calculate booking status statistics:",
+                statsError
+            );
+
+        }
+
+
+        // ------------------------------------------
+        // UPDATE STAT CARDS
+        // ------------------------------------------
+
+        document.getElementById(
+            "totalCustomersStat"
+        ).textContent =
+            totalCustomers;
+
+
+        document.getElementById(
+            "totalBookingsStat"
+        ).textContent =
+            totalBookings;
+
+
+        document.getElementById(
+            "repeatCustomersStat"
+        ).textContent =
+            repeatCustomers;
+
+
+        document.getElementById(
+            "pendingBookingsStat"
+        ).textContent =
+            pendingBookings;
+
+
+        document.getElementById(
+            "completedBookingsStat"
+        ).textContent =
+            completedBookings;
+
+
+        // ------------------------------------------
+        // CUSTOMER COUNT
+        // ------------------------------------------
+
+        if (count) {
+
+            count.textContent =
+                `${totalCustomers} ${
+                    totalCustomers === 1
+                        ? "Customer"
+                        : "Customers"
+                }`;
+
+        }
+
+
+        // ------------------------------------------
         // RENDER CUSTOMER TABLE
         // ------------------------------------------
 
@@ -617,31 +860,17 @@ async function showCustomers() {
             filteredCustomers
         ) {
 
-            // --------------------------------------
-            // UPDATE COUNT
-            // --------------------------------------
-
             if (count) {
 
-                const total =
-                    filteredCustomers.length;
-
-
-                const text =
-                    total === 1
-                        ? "Customer"
-                        : "Customers";
-
-
                 count.textContent =
-                    `${total} ${text}`;
+                    `${filteredCustomers.length} ${
+                        filteredCustomers.length === 1
+                            ? "Customer"
+                            : "Customers"
+                    }`;
 
             }
 
-
-            // --------------------------------------
-            // NO RESULTS
-            // --------------------------------------
 
             if (
                 filteredCustomers.length === 0
@@ -700,10 +929,6 @@ async function showCustomers() {
             }
 
 
-            // --------------------------------------
-            // CUSTOMER TABLE
-            // --------------------------------------
-
             table.innerHTML = `
 
                 <div class="customer-table-wrapper">
@@ -748,8 +973,6 @@ async function showCustomers() {
                             ${filteredCustomers.map(
                                 (customer) => {
 
-                                    // Find original
-                                    // customer index
                                     const originalIndex =
                                         customers.indexOf(
                                             customer
@@ -903,10 +1126,6 @@ async function showCustomers() {
             `;
 
 
-            // --------------------------------------
-            // VIEW BUTTONS
-            // --------------------------------------
-
             document
                 .querySelectorAll(
                     ".customer-view-btn"
@@ -958,8 +1177,6 @@ async function showCustomers() {
                         .toLowerCase();
 
 
-                // Show / hide clear button
-
                 if (clearButton) {
 
                     clearButton.style.display =
@@ -969,9 +1186,6 @@ async function showCustomers() {
 
                 }
 
-
-                // No search
-                // Show everything
 
                 if (!searchValue) {
 
@@ -983,10 +1197,6 @@ async function showCustomers() {
 
                 }
 
-
-                // ----------------------------------
-                // FILTER CUSTOMERS
-                // ----------------------------------
 
                 const filteredCustomers =
                     customers.filter(
@@ -1019,23 +1229,10 @@ async function showCustomers() {
 
 
                             return (
-
-                                name.includes(
-                                    searchValue
-                                ) ||
-
-                                phone.includes(
-                                    searchValue
-                                ) ||
-
-                                email.includes(
-                                    searchValue
-                                ) ||
-
-                                services.includes(
-                                    searchValue
-                                )
-
+                                name.includes(searchValue) ||
+                                phone.includes(searchValue) ||
+                                email.includes(searchValue) ||
+                                services.includes(searchValue)
                             );
 
                         }
@@ -1119,10 +1316,6 @@ async function showCustomers() {
     }
 
 }
-
-// ==========================================
-// CUSTOMER DETAILS
-// ==========================================
 
 // ==========================================
 // CUSTOMER DETAILS
