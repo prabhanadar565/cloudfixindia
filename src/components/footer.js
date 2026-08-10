@@ -21,11 +21,16 @@ export function footer() {
 
                 <div class="footer-buttons">
 
-                    <a href="https://wa.me/919987322608"
-                       target="_blank"
-                       class="footer-btn whatsapp">
+                    <a
+                        href="https://wa.me/919987322608?text=${encodeURIComponent(
+                            "Hi CloudFix India! I found your website and would like to know more about your IT services."
+                        )}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="footer-btn whatsapp">
 
                         <i class="fa-brands fa-whatsapp"></i>
+
                         WhatsApp
 
                     </a>
@@ -113,7 +118,7 @@ export function footer() {
 
                     <li>
                         <i class="fa-solid fa-clock"></i>
-                        Mon - Sun : 9 AM - 9 PM
+                        Mon - Sun : 9 AM - 8 PM
                     </li>
 
                 </ul>
@@ -132,8 +137,16 @@ export function footer() {
 
             <a href="#"><i class="fa-brands fa-youtube"></i></a>
 
-            <a href="https://wa.me/919987322608" target="_blank">
+            <a
+                href="https://wa.me/919987322608?text=${encodeURIComponent(
+                    "Hi CloudFix India! I found your website and would like to know more about your IT services."
+                )}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with CloudFix India on WhatsApp">
+
                 <i class="fa-brands fa-whatsapp"></i>
+
             </a>
 
         </div>

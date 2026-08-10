@@ -1,17 +1,24 @@
-export function floatingWhatsapp(){
+export function floatingWhatsapp() {
 
-return `
+    const message =
+    "Hi CloudFix India! I found your website and would like to know more about your IT services.";
 
-<a
-href="https://wa.me/919987322608?text=Hi%20CloudFix%20India,%20I%20need%20IT%20support."
-target="_blank"
-class="floating-whatsapp"
-aria-label="Chat on WhatsApp">
+    const whatsappUrl =
+        `https://wa.me/919987322608?text=${encodeURIComponent(message)}`;
 
-<i class="fa-brands fa-whatsapp"></i>
+    return `
 
-</a>
+        <a
+            href="${whatsappUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="floating-whatsapp"
+            aria-label="Chat with CloudFix India on WhatsApp">
 
-`;
+            <i class="fa-brands fa-whatsapp"></i>
+
+        </a>
+
+    `;
 
 }

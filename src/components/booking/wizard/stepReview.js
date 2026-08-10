@@ -1,3 +1,5 @@
+import { createBooking } from "../../../firebase/bookings";
+
 import {
     bookingData,
     previousStep,
@@ -259,11 +261,54 @@ function formatReviewDate(dateString) {
    Back
 =========================== */
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", async (e) => {
 
-    if (e.target.id === "reviewBackBtn") {
+    if (e.target.id !== "confirmReviewBtn") return;
 
-        previousStep();
+
+    const button = e.target;
+
+
+    if (button.disabled) return;
+
+
+    button.disabled = true;
+
+    button.innerHTML = `
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Confirming...
+    `;
+
+
+    try {
+
+        const bookingId = await createBooking(bookingData);
+
+
+        bookingData.bookingId = bookingId;
+
+
+        nextStep();
+
+
+    } catch (error) {
+
+        console.error(
+            "Booking creation failed:",
+            error
+        );
+
+
+        alert(
+            "We couldn't submit your booking. Please try again."
+        );
+
+
+        button.disabled = false;
+
+        button.innerHTML = `
+            Confirm Booking ✓
+        `;
 
     }
 

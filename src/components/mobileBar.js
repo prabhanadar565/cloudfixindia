@@ -11,15 +11,18 @@ export function mobileBar() {
     </a>
 
     <a
-        href="https://wa.me/919987322608?text=Hi%20CloudFix%20India,%20I%20need%20IT%20support."
-        target="_blank"
-        class="mobile-wa">
+    href="https://wa.me/919987322608?text=${encodeURIComponent(
+        "Hi CloudFix India! I need IT support and would like to know more about your doorstep services."
+    )}"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="mobile-wa">
 
-        <i class="fa-brands fa-whatsapp"></i>
+    <i class="fa-brands fa-whatsapp"></i>
 
-        <span>WhatsApp</span>
+    <span>WhatsApp</span>
 
-    </a>
+</a>
 
 </div>
 `;
