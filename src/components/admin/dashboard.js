@@ -11,6 +11,11 @@ import {
     getCustomerBookingsForStats
 } from "./customerService";
 
+import {
+    getBookingAvailability,
+    setBookingAvailability
+} from "../../firebase/settingsService";
+
 
 // ==========================================
 // AUTHENTICATION
@@ -1946,10 +1951,13 @@ async function showCustomerDetails(customer) {
 // SETTINGS
 // ==========================================
 
-function showSettings() {
+async function showSettings() {
 
     const content =
-        document.getElementById("adminContent");
+        document.getElementById(
+            "adminContent"
+        );
+
 
     if (!content) {
 
@@ -1962,44 +1970,791 @@ function showSettings() {
     }
 
 
+    // ------------------------------------------
+    // LOADING STATE
+    // ------------------------------------------
+
     content.innerHTML = `
 
-        <h1>
-            Settings
-        </h1>
+        <div class="page-heading">
 
+            <div>
 
-        <div class="table">
-
-            <div class="table-header">
-
-                <h2>
-                    Admin Settings
-                </h2>
-
-            </div>
-
-
-            <div class="booking-empty">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <h3>
+                <h1>
                     Settings
-                </h3>
+                </h1>
 
                 <p>
-                    Settings will be available soon.
+                    Manage your CloudFix India
+                    administration and system settings.
                 </p>
 
             </div>
 
         </div>
 
+
+        <div class="booking-loading">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            Loading settings...
+
+        </div>
+
     `;
 
-}
 
+    try {
+
+        const acceptingBookings =
+            await getBookingAvailability();
+
+
+        // --------------------------------------
+        // SETTINGS PAGE
+        // --------------------------------------
+
+        content.innerHTML = `
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Settings
+                    </h1>
+
+                    <p>
+                        Manage your CloudFix India
+                        administration and system settings.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==================================
+                 BUSINESS INFORMATION
+                 ================================== -->
+
+            <div class="settings-grid">
+
+
+                <div class="table settings-card">
+
+                    <div class="table-header">
+
+                        <div>
+
+                            <h2>
+
+                                <i class="fa-solid fa-building"></i>
+
+                                Business Information
+
+                            </h2>
+
+                            <p>
+                                CloudFix India service information.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-list">
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Business Name
+                                </strong>
+
+                                <span>
+                                    CloudFix India
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Business Email
+                                </strong>
+
+                                <span>
+                                    cloudfixindia@zohomail.in
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Service Type
+                                </strong>
+
+                                <span>
+                                    IT Support & Computer Services
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Service Availability
+                                </strong>
+
+                                <span class="status-badge status-active">
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    Active
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==================================
+                     BOOKING SETTINGS
+                     ================================== -->
+
+                <div class="table settings-card">
+
+                    <div class="table-header">
+
+                        <div>
+
+                            <h2>
+
+                                <i class="fa-solid fa-calendar-check"></i>
+
+                                Booking Settings
+
+                            </h2>
+
+                            <p>
+                                Control whether customers
+                                can submit new bookings.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-list">
+
+
+                        <div class="settings-item booking-setting-row">
+
+                            <div>
+
+                                <strong>
+                                    Accept New Customer Bookings
+                                </strong>
+
+                                <span id="bookingAvailabilityText">
+
+                                    ${
+                                        acceptingBookings
+                                            ? "Customers can currently submit new bookings."
+                                            : "New customer bookings are currently disabled."
+                                    }
+
+                                </span>
+
+                            </div>
+
+
+                            <label class="settings-switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="bookingAvailabilityToggle"
+                                    ${
+                                        acceptingBookings
+                                            ? "checked"
+                                            : ""
+                                    }
+                                >
+
+                                <span class="settings-slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div
+                            id="bookingAvailabilityStatus"
+                            class="
+                                booking-setting-status
+                                ${
+                                    acceptingBookings
+                                        ? "enabled"
+                                        : "disabled"
+                                }
+                            "
+                        >
+
+                            <i
+                                class="
+                                    fa-solid
+                                    ${
+                                        acceptingBookings
+                                            ? "fa-circle-check"
+                                            : "fa-circle-pause"
+                                    }
+                                "
+                            ></i>
+
+
+                            <span>
+
+                                ${
+                                    acceptingBookings
+                                        ? "Booking system is accepting new requests."
+                                        : "Booking system is temporarily closed."
+                                }
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==================================
+                     ADMIN ACCOUNT
+                     ================================== -->
+
+                <div class="table settings-card">
+
+                    <div class="table-header">
+
+                        <div>
+
+                            <h2>
+
+                                <i class="fa-solid fa-user-shield"></i>
+
+                                Admin Account
+
+                            </h2>
+
+                            <p>
+                                Current administrator access.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-list">
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Admin Email
+                                </strong>
+
+                                <span>
+                                    cloudfixindia@zohomail.in
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Authentication
+                                </strong>
+
+                                <span class="status-badge status-active">
+
+                                    <i class="fa-solid fa-shield-halved"></i>
+
+                                    Firebase Authentication
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Account Access
+                                </strong>
+
+                                <span class="status-badge status-active">
+
+                                    <i class="fa-solid fa-lock"></i>
+
+                                    Administrator
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==================================
+                     SECURITY
+                     ================================== -->
+
+                <div class="table settings-card">
+
+                    <div class="table-header">
+
+                        <div>
+
+                            <h2>
+
+                                <i class="fa-solid fa-shield-halved"></i>
+
+                                Security
+
+                            </h2>
+
+                            <p>
+                                CloudFix data protection status.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-list">
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Firestore Access
+                                </strong>
+
+                                <span class="status-badge status-active">
+
+                                    <i class="fa-solid fa-lock"></i>
+
+                                    Protected
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Booking Data
+                                </strong>
+
+                                <span>
+                                    Admin access only
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Review Management
+                                </strong>
+
+                                <span>
+                                    Admin access only
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-item">
+
+                            <div>
+
+                                <strong>
+                                    Public Review Visibility
+                                </strong>
+
+                                <span>
+                                    Approved reviews only
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ==================================
+                 SYSTEM INFORMATION
+                 ================================== -->
+
+            <div class="table settings-system-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h2>
+
+                            <i class="fa-solid fa-server"></i>
+
+                            System Information
+
+                        </h2>
+
+                        <p>
+                            CloudFix India admin system.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-status-grid">
+
+
+                    <div class="system-status-item">
+
+                        <i class="fa-solid fa-database"></i>
+
+                        <div>
+
+                            <strong>
+                                Firebase Firestore
+                            </strong>
+
+                            <span class="status-text">
+                                Connected
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="system-status-item">
+
+                        <i class="fa-solid fa-user-lock"></i>
+
+                        <div>
+
+                            <strong>
+                                Authentication
+                            </strong>
+
+                            <span class="status-text">
+                                Active
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="system-status-item">
+
+                        <i class="fa-solid fa-calendar"></i>
+
+                        <div>
+
+                            <strong>
+                                Booking System
+                            </strong>
+
+                            <span
+                                id="systemBookingStatus"
+                                class="status-text"
+                            >
+                                ${
+                                    acceptingBookings
+                                        ? "Accepting Bookings"
+                                        : "Booking Closed"
+                                }
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="system-status-item">
+
+                        <i class="fa-solid fa-star"></i>
+
+                        <div>
+
+                            <strong>
+                                Review System
+                            </strong>
+
+                            <span class="status-text">
+                                Operational
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        // --------------------------------------
+        // BOOKING TOGGLE
+        // --------------------------------------
+
+        const toggle =
+            document.getElementById(
+                "bookingAvailabilityToggle"
+            );
+
+
+        const description =
+            document.getElementById(
+                "bookingAvailabilityText"
+            );
+
+
+        const statusBox =
+            document.getElementById(
+                "bookingAvailabilityStatus"
+            );
+
+
+        const systemStatus =
+            document.getElementById(
+                "systemBookingStatus"
+            );
+
+
+        if (!toggle) {
+            return;
+        }
+
+
+        toggle.addEventListener(
+            "change",
+            async () => {
+
+                const newValue =
+                    toggle.checked;
+
+
+                // Prevent multiple clicks
+                toggle.disabled = true;
+
+
+                try {
+
+                    await setBookingAvailability(
+                        newValue
+                    );
+
+
+                    if (description) {
+
+                        description.textContent =
+                            newValue
+                                ? "Customers can currently submit new bookings."
+                                : "New customer bookings are currently disabled.";
+
+                    }
+
+
+                    if (statusBox) {
+
+                        statusBox.classList.toggle(
+                            "enabled",
+                            newValue
+                        );
+
+                        statusBox.classList.toggle(
+                            "disabled",
+                            !newValue
+                        );
+
+
+                        statusBox.innerHTML = `
+
+                            <i
+                                class="
+                                    fa-solid
+                                    ${
+                                        newValue
+                                            ? "fa-circle-check"
+                                            : "fa-circle-pause"
+                                    }
+                                "
+                            ></i>
+
+                            <span>
+
+                                ${
+                                    newValue
+                                        ? "Booking system is accepting new requests."
+                                        : "Booking system is temporarily closed."
+                                }
+
+                            </span>
+
+                        `;
+
+                    }
+
+
+                    if (systemStatus) {
+
+                        systemStatus.textContent =
+                            newValue
+                                ? "Accepting Bookings"
+                                : "Booking Closed";
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Failed to update booking availability:",
+                        error
+                    );
+
+
+                    // Restore previous state
+                    toggle.checked =
+                        !newValue;
+
+
+                    alert(
+                        "Unable to update booking availability. Please try again."
+                    );
+
+                } finally {
+
+                    toggle.disabled = false;
+
+                }
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load settings:",
+            error
+        );
+
+
+        content.innerHTML = `
+
+            <div class="booking-empty">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <h3>
+                    Unable to Load Settings
+                </h3>
+
+                <p>
+                    Please refresh the page and try again.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
 
 // ==========================================
 // HTML ESCAPE

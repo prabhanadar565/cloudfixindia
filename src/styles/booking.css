@@ -1158,3 +1158,51 @@ transform:scale(1);
     }
 
 }
+
+/* ==========================================
+   BOOKING UNAVAILABLE
+   ========================================== */
+
+.booking-unavailable-modal {
+    text-align: center;
+    padding: 50px 35px;
+}
+
+
+.booking-unavailable-icon {
+    width: 76px;
+    height: 76px;
+
+    margin: 0 auto 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #fff7ed;
+
+    color: #ea580c;
+
+    font-size: 32px;
+}
+
+
+.booking-unavailable-modal h2 {
+    margin-bottom: 12px;
+}
+
+
+.booking-unavailable-modal p {
+    color: #64748b;
+
+    line-height: 1.6;
+
+    margin: 6px 0;
+}
+
+
+.booking-unavailable-modal .wizard-btn {
+    margin-top: 24px;
+}

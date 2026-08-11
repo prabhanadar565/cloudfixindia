@@ -1,8 +1,49 @@
-import { startBookingWizard } from "./wizard/bookingWizard";
+import {
+    startBookingWizard
+} from "./wizard/bookingWizard";
 
-export function openBookingModal() {
+import {
+    getBookingAvailability
+}from "../../firebase/settingsService"; 
 
-    const existingModal = document.getElementById("bookingModal");
+
+// ==========================================
+// OPEN BOOKING MODAL
+// ==========================================
+
+export async function
+openBookingModal() {
+
+    // --------------------------------------
+    // CHECK BOOKING AVAILABILITY
+    // --------------------------------------
+
+    const acceptingBookings =
+        await getBookingAvailability();
+
+
+    // --------------------------------------
+    // BOOKINGS DISABLED
+    // --------------------------------------
+
+    if (!acceptingBookings) {
+
+        showBookingUnavailable();
+
+        return;
+
+    }
+
+
+    // --------------------------------------
+    // REMOVE EXISTING MODAL
+    // --------------------------------------
+
+    const existingModal =
+        document.getElementById(
+            "bookingModal"
+        );
+
 
     if (existingModal) {
 
@@ -10,64 +51,255 @@ export function openBookingModal() {
 
     }
 
-    const modal = document.createElement("div");
 
-    modal.id = "bookingModal";
+    // --------------------------------------
+    // CREATE MODAL
+    // --------------------------------------
 
-    modal.className = "booking-modal";
+    const modal =
+        document.createElement(
+            "div"
+        );
+
+
+    modal.id =
+        "bookingModal";
+
+
+    modal.className =
+        "booking-modal";
+
 
     modal.innerHTML = `
+
         <div class="booking-modal-content">
 
-            <button id="closeBookingModal" class="booking-close">
+            <button
+                id="closeBookingModal"
+                class="booking-close"
+                type="button"
+            >
                 &times;
             </button>
 
+
             <div class="booking-header">
 
-                <h2 id="wizardTitle">Choose Service</h2>
+                <h2 id="wizardTitle">
+                    Choose Service
+                </h2>
+
 
                 <div class="progress-bar">
 
                     <div
                         id="wizardProgress"
-                        class="progress-fill">
-                    </div>
+                        class="progress-fill"
+                    ></div>
 
                 </div>
 
             </div>
 
-            <div id="bookingWizardBody"></div>
+
+            <div
+                id="bookingWizardBody"
+            ></div>
 
         </div>
+
     `;
 
-    document.body.appendChild(modal);
 
-    // Prevent background scrolling
-    document.body.style.overflow = "hidden";
+    document.body.appendChild(
+        modal
+    );
+
+
+    // --------------------------------------
+    // START WIZARD
+    // --------------------------------------
 
     startBookingWizard();
 
+
+    // --------------------------------------
+    // CLOSE BUTTON
+    // --------------------------------------
+
     document
-        .getElementById("closeBookingModal")
-        .addEventListener("click", () => {
+        .getElementById(
+            "closeBookingModal"
+        )
+        ?.addEventListener(
+            "click",
+            () => {
 
-            modal.remove();
+                modal.remove();
 
-        });
+            }
+        );
 
-    modal.addEventListener("click", (e) => {
 
-        if (e.target === modal) {
+    // --------------------------------------
+    // CLICK OUTSIDE MODAL
+    // --------------------------------------
 
-            document.body.style.overflow = "";
+    modal.addEventListener(
+        "click",
+        (event) => {
 
-            modal.remove();
+            if (
+                event.target === modal
+            ) {
+
+                modal.remove();
+
+            }
 
         }
+    );
 
-    });
+}
+
+
+// ==========================================
+// BOOKING UNAVAILABLE MESSAGE
+// ==========================================
+
+function showBookingUnavailable() {
+
+    const existingModal =
+        document.getElementById(
+            "bookingModalUnavailable"
+        );
+
+
+    if (existingModal) {
+
+        existingModal.remove();
+
+    }
+
+
+    const modal =
+        document.createElement(
+            "div"
+        );
+
+
+    modal.id =
+        "bookingModalUnavailable";
+
+
+    modal.className =
+        "booking-modal";
+
+
+    modal.innerHTML = `
+
+        <div
+            class="
+                booking-modal-content
+                booking-unavailable-modal
+            "
+        >
+
+            <button
+                id="closeBookingUnavailable"
+                class="booking-close"
+                type="button"
+            >
+                &times;
+            </button>
+
+
+            <div class="booking-unavailable-icon">
+
+                <i class="fa-solid fa-calendar-xmark"></i>
+
+            </div>
+
+
+            <h2>
+                Bookings Temporarily Unavailable
+            </h2>
+
+
+            <p>
+                We are currently not accepting
+                new service bookings.
+            </p>
+
+
+            <p>
+                Please contact CloudFix India
+                for assistance.
+            </p>
+
+
+            <button
+                id="closeBookingUnavailableButton"
+                class="wizard-btn"
+                type="button"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Go Back
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        modal
+    );
+
+
+    const closeModal =
+        () => {
+
+            modal.remove();
+
+        };
+
+
+    document
+        .getElementById(
+            "closeBookingUnavailable"
+        )
+        ?.addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    document
+        .getElementById(
+            "closeBookingUnavailableButton"
+        )
+        ?.addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    modal.addEventListener(
+        "click",
+        (event) => {
+
+            if (
+                event.target === modal
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
 
 }
