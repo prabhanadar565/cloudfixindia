@@ -830,6 +830,11 @@ function showBookingDetails(
 
         <div class="booking-details-dialog">
 
+
+            <!-- ==================================
+                 HEADER
+                 ================================== -->
+
             <div class="booking-details-header">
 
                 <div>
@@ -839,10 +844,12 @@ function showBookingDetails(
                     </span>
 
                     <h2>
+
                         ${escapeHtml(
                             booking.service ||
                             "Service"
                         )}
+
                     </h2>
 
                 </div>
@@ -850,7 +857,9 @@ function showBookingDetails(
 
                 <button
                     class="booking-modal-close"
-                    aria-label="Close">
+                    aria-label="Close"
+                    type="button"
+                >
 
                     <i class="fa-solid fa-xmark"></i>
 
@@ -859,32 +868,56 @@ function showBookingDetails(
             </div>
 
 
+
+            <!-- ==================================
+                 BODY
+                 ================================== -->
+
             <div class="booking-details-body">
 
+
+                <!-- STATUS -->
 
                 <div class="details-status">
 
                     <span
-                        class="booking-status status-${status}">
+                        class="
+                            booking-status
+                            status-${status}
+                        "
+                    >
 
                         ${formatStatus(status)}
 
                     </span>
 
+
                     <span>
+
                         #${escapeHtml(
                             booking.id
                         )}
+
                     </span>
 
                 </div>
 
 
+
+                <!-- ==================================
+                     CUSTOMER
+                     ================================== -->
+
                 <div class="details-section">
 
                     <h3>
 
-                        <i class="fa-solid fa-user"></i>
+                        <i
+                            class="
+                                fa-solid
+                                fa-user
+                            "
+                        ></i>
 
                         Customer
 
@@ -893,15 +926,20 @@ function showBookingDetails(
 
                     <div class="details-grid">
 
+
                         <div>
 
-                            <span>Name</span>
+                            <span>
+                                Name
+                            </span>
 
                             <strong>
+
                                 ${escapeHtml(
                                     customer.name ||
                                     "N/A"
                                 )}
+
                             </strong>
 
                         </div>
@@ -909,13 +947,17 @@ function showBookingDetails(
 
                         <div>
 
-                            <span>Phone</span>
+                            <span>
+                                Phone
+                            </span>
 
                             <strong>
+
                                 ${escapeHtml(
                                     customer.phone ||
                                     "N/A"
                                 )}
+
                             </strong>
 
                         </div>
@@ -923,27 +965,147 @@ function showBookingDetails(
 
                         <div>
 
-                            <span>Email</span>
+                            <span>
+                                Email
+                            </span>
 
                             <strong>
+
                                 ${escapeHtml(
                                     customer.email ||
                                     "N/A"
                                 )}
+
                             </strong>
 
                         </div>
+
+
+                    </div>
+
+
+                    <!-- ==================================
+                         CUSTOMER CONTACT ACTIONS
+                         ================================== -->
+
+                    <div class="customer-contact-actions">
+
+
+                        ${
+                            customer.phone
+                                ? `
+
+                                    <a
+                                        href="tel:${escapeHtml(
+                                            customer.phone
+                                        )}"
+                                        class="
+                                            customer-contact-btn
+                                            call
+                                        "
+                                    >
+
+                                        <i
+                                            class="
+                                                fa-solid
+                                                fa-phone
+                                            "
+                                        ></i>
+
+                                        Call Customer
+
+                                    </a>
+
+                                `
+                                : ""
+                        }
+
+
+
+                        ${
+                            customer.phone
+                                ? `
+
+                                    <a
+                                        href="${createWhatsAppLink(
+                                            customer.phone,
+                                            booking
+                                        )}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="
+                                            customer-contact-btn
+                                            whatsapp
+                                        "
+                                    >
+
+                                        <i
+                                            class="
+                                                fa-brands
+                                                fa-whatsapp
+                                            "
+                                        ></i>
+
+                                        WhatsApp
+
+                                    </a>
+
+                                `
+                                : ""
+                        }
+
+
+
+                        ${
+                            customer.email
+                                ? `
+
+                                    <a
+                                        href="mailto:${escapeHtml(
+                                            customer.email
+                                        )}"
+                                        class="
+                                            customer-contact-btn
+                                            email
+                                    "
+                                    >
+
+                                        <i
+                                            class="
+                                                fa-solid
+                                                fa-envelope
+                                            "
+                                        ></i>
+
+                                        Email Customer
+
+                                    </a>
+
+                                `
+                                : ""
+                        }
+
 
                     </div>
 
                 </div>
 
 
+
+                <!-- ==================================
+                     VISIT
+                     ================================== -->
+
                 <div class="details-section">
 
                     <h3>
 
-                        <i class="fa-regular fa-calendar"></i>
+                        <i
+                            class="
+                                fa-regular
+                                fa-calendar
+                            "
+                        ></i>
 
                         Visit
 
@@ -952,14 +1114,19 @@ function showBookingDetails(
 
                     <div class="details-grid">
 
+
                         <div>
 
-                            <span>Date</span>
+                            <span>
+                                Date
+                            </span>
 
                             <strong>
+
                                 ${formatDate(
                                     visit.date
                                 )}
+
                             </strong>
 
                         </div>
@@ -967,27 +1134,42 @@ function showBookingDetails(
 
                         <div>
 
-                            <span>Time</span>
+                            <span>
+                                Time
+                            </span>
 
                             <strong>
+
                                 ${escapeHtml(
                                     visit.time ||
                                     "N/A"
                                 )}
+
                             </strong>
 
                         </div>
+
 
                     </div>
 
                 </div>
 
 
+
+                <!-- ==================================
+                     ADDRESS
+                     ================================== -->
+
                 <div class="details-section">
 
                     <h3>
 
-                        <i class="fa-solid fa-location-dot"></i>
+                        <i
+                            class="
+                                fa-solid
+                                fa-location-dot
+                            "
+                        ></i>
 
                         Address
 
@@ -1006,11 +1188,21 @@ function showBookingDetails(
                 </div>
 
 
+
+                <!-- ==================================
+                     PROBLEM
+                     ================================== -->
+
                 <div class="details-section">
 
                     <h3>
 
-                        <i class="fa-solid fa-message"></i>
+                        <i
+                            class="
+                                fa-solid
+                                fa-message
+                            "
+                        ></i>
 
                         Problem
 
@@ -1032,11 +1224,19 @@ function showBookingDetails(
             </div>
 
 
+
+            <!-- ==================================
+                 ACTIONS
+                 ================================== -->
+
             <div class="booking-details-footer">
 
-                ${getModalActions(booking)}
+                ${getModalActions(
+                    booking
+                )}
 
             </div>
+
 
         </div>
 
@@ -1061,11 +1261,99 @@ function showBookingDetails(
 
 
     close.onclick =
-        () => closeBookingModal();
+        () => {
+
+            closeBookingModal();
+
+        };
 
 
     overlay.onclick =
-        () => closeBookingModal();
+        () => {
+
+            closeBookingModal();
+
+        };
+
+}
+
+
+/* ==========================================
+   WHATSAPP LINK
+========================================== */
+
+function createWhatsAppLink(
+    phone,
+    booking
+) {
+
+    let number =
+        String(phone)
+            .replace(
+                /\D/g,
+                ""
+            );
+
+
+    // ------------------------------------------
+    // INDIA PHONE NUMBER
+    // ------------------------------------------
+
+    if (
+        number.length === 10
+    ) {
+
+        number =
+            "91" +
+            number;
+
+    }
+
+
+    if (
+        number.startsWith("0")
+    ) {
+
+        number =
+            "91" +
+            number.substring(1);
+
+    }
+
+
+    const customer =
+        booking.customer || {};
+
+
+    const visit =
+        booking.visit || {};
+
+
+    const message =
+
+`Hello ${customer.name || "Customer"},
+
+This is CloudFix India regarding your service booking.
+
+Service: ${booking.service || "N/A"}
+Booking ID: ${booking.id || "N/A"}
+Date: ${visit.date || "N/A"}
+Time: ${visit.time || "N/A"}
+
+Please let us know if you have any questions.
+
+Thank you,
+CloudFix India`;
+
+
+    return (
+        "https://wa.me/" +
+        number +
+        "?text=" +
+        encodeURIComponent(
+            message
+        )
+    );
 
 }
 

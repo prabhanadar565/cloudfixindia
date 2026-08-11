@@ -2222,3 +2222,122 @@ body{
     }
 
 }
+
+/* ==========================================
+   CUSTOMER CONTACT ACTIONS
+========================================== */
+
+.customer-contact-actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 18px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #e5e7eb;
+
+}
+
+
+.customer-contact-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 10px 15px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    border: 1px solid transparent;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
+
+}
+
+
+.customer-contact-btn:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 12px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+
+.customer-contact-btn.call {
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    border-color: #bfdbfe;
+
+}
+
+
+.customer-contact-btn.whatsapp {
+
+    background: #f0fdf4;
+
+    color: #15803d;
+
+    border-color: #bbf7d0;
+
+}
+
+
+.customer-contact-btn.email {
+
+    background: #fff7ed;
+
+    color: #c2410c;
+
+    border-color: #fed7aa;
+
+}
+
+
+.customer-contact-btn i {
+
+    font-size: 14px;
+
+}
+
+
+@media (max-width: 600px) {
+
+    .customer-contact-actions {
+
+        flex-direction: column;
+
+    }
+
+
+    .customer-contact-btn {
+
+        width: 100%;
+
+    }
+
+}
