@@ -14,16 +14,30 @@ let currentFilter = "all";
 let currentSearch = "";
 
 
-/* ==========================================
-   LOAD BOOKINGS
-========================================== */
+// ==========================================
+// LOAD BOOKINGS
+// ==========================================
 
-export async function loadBookings() {
+export async function loadBookings(statusFilter = null) {
 
     const container =
         document.getElementById("bookingsTable");
 
     if (!container) return;
+
+
+    // ------------------------------------------
+    // SET INITIAL FILTER
+    // ------------------------------------------
+
+    currentFilter =
+        statusFilter || "all";
+
+
+    // Reset search whenever we open
+    // the bookings page from a statistic card
+
+    currentSearch = "";
 
 
     container.innerHTML = `
@@ -39,11 +53,27 @@ export async function loadBookings() {
 
     try {
 
-        allBookings = await getAllBookings();
+        // --------------------------------------
+        // LOAD ALL BOOKINGS
+        // --------------------------------------
+
+        allBookings =
+            await getAllBookings();
+
+
+        // --------------------------------------
+        // RENDER CONTROLS
+        // --------------------------------------
 
         renderBookingControls();
 
+
+        // --------------------------------------
+        // RENDER BOOKINGS
+        // --------------------------------------
+
         renderBookings();
+
 
     } catch (error) {
 
@@ -54,6 +84,7 @@ export async function loadBookings() {
 
 
         container.innerHTML = `
+
             <div class="booking-empty">
 
                 <i class="fa-solid fa-triangle-exclamation"></i>
@@ -63,12 +94,12 @@ export async function loadBookings() {
                 </p>
 
             </div>
+
         `;
 
     }
 
 }
-
 
 /* ==========================================
    CONTROLS

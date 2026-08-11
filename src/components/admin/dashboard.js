@@ -312,7 +312,7 @@ function showDashboard() {
 // BOOKINGS
 // ==========================================
 
-async function showBookings() {
+async function showBookings(statusFilter = null) {
 
     const content =
         document.getElementById("adminContent");
@@ -384,7 +384,7 @@ async function showBookings() {
     `;
 
 
-    await loadBookings();
+    await loadBookings(statusFilter);
 
 }
 
@@ -491,7 +491,10 @@ async function showCustomers() {
 
         <div class="customer-stats-grid">
 
-            <div class="customer-stat-card">
+            <div
+                class="customer-stat-card clickable-stat"
+                id="totalCustomersCard"
+            >
 
                 <div class="customer-stat-icon">
                     <i class="fa-solid fa-users"></i>
@@ -512,7 +515,10 @@ async function showCustomers() {
             </div>
 
 
-            <div class="customer-stat-card">
+            <div
+                class="customer-stat-card clickable-stat"
+                id="totalBookingsCard"
+            >
 
                 <div class="customer-stat-icon">
                     <i class="fa-solid fa-calendar-check"></i>
@@ -533,7 +539,10 @@ async function showCustomers() {
             </div>
 
 
-            <div class="customer-stat-card">
+            <div
+                class="customer-stat-card clickable-stat"
+                id="repeatCustomersCard"
+            >
 
                 <div class="customer-stat-icon">
                     <i class="fa-solid fa-repeat"></i>
@@ -554,7 +563,10 @@ async function showCustomers() {
             </div>
 
 
-            <div class="customer-stat-card">
+            <div
+                class="customer-stat-card clickable-stat"
+                id="pendingBookingsCard"
+            >
 
                 <div class="customer-stat-icon pending">
                     <i class="fa-solid fa-clock"></i>
@@ -575,7 +587,10 @@ async function showCustomers() {
             </div>
 
 
-            <div class="customer-stat-card">
+            <div
+                class="customer-stat-card clickable-stat"
+                id="completedBookingsCard"
+            >
 
                 <div class="customer-stat-icon completed">
                     <i class="fa-solid fa-circle-check"></i>
@@ -1274,6 +1289,116 @@ async function showCustomers() {
 
             }
         );
+
+        // ==========================================
+// CUSTOMER STAT CARD ACTIONS
+// ==========================================
+
+
+// ------------------------------------------
+// TOTAL CUSTOMERS
+// ------------------------------------------
+
+document
+    .getElementById("totalCustomersCard")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            const searchInput =
+                document.getElementById(
+                    "customerSearch"
+                );
+
+            searchInput?.focus();
+
+        }
+    );
+
+
+// ------------------------------------------
+// TOTAL BOOKINGS
+// ------------------------------------------
+
+document
+    .getElementById("totalBookingsCard")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const bookingsNav =
+                document.getElementById(
+                    "bookingsNav"
+                );
+
+
+            setActiveNav(
+                bookingsNav
+            );
+
+
+            await showBookings();
+
+        }
+    );
+
+
+// ------------------------------------------
+// PENDING BOOKINGS
+// ------------------------------------------
+
+document
+    .getElementById("pendingBookingsCard")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const bookingsNav =
+                document.getElementById(
+                    "bookingsNav"
+                );
+
+
+            setActiveNav(
+                bookingsNav
+            );
+
+
+            await showBookings(
+                "pending"
+            );
+
+        }
+    );
+
+
+// ------------------------------------------
+// COMPLETED BOOKINGS
+// ------------------------------------------
+
+document
+    .getElementById("completedBookingsCard")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const bookingsNav =
+                document.getElementById(
+                    "bookingsNav"
+                );
+
+
+            setActiveNav(
+                bookingsNav
+            );
+
+
+            await showBookings(
+                "completed"
+            );
+
+        }
+    );
 
 
     } catch (error) {
