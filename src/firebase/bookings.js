@@ -29,12 +29,25 @@ export async function createBooking(booking) {
 
             problem: booking.problem,
 
+            // ==============================
+            // BOOKING STATUS
+            // ==============================
             status: "pending",
 
+            // ==============================
+            // PAYMENT INFORMATION
+            // ==============================
+            paymentAmount: 0,
+            paidAmount: 0,
+            paymentStatus: "unpaid",
+            paymentMethod: "",
+
+            // ==============================
+            // CREATED TIME
+            // ==============================
             createdAt: Timestamp.now()
         }
     );
 
     return bookingRef.id;
-
 }

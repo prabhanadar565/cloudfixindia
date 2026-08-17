@@ -473,6 +473,10 @@ async function showCustomers() {
     }
 
 
+    // ==========================================
+    // CUSTOMER PAGE HTML
+    // ==========================================
+
     content.innerHTML = `
 
         <div class="page-heading">
@@ -492,9 +496,14 @@ async function showCustomers() {
         </div>
 
 
-        <!-- CUSTOMER STATISTICS -->
+        <!-- ==========================================
+             CUSTOMER STATISTICS
+        =========================================== -->
 
         <div class="customer-stats-grid">
+
+
+            <!-- TOTAL CUSTOMERS -->
 
             <div
                 class="customer-stat-card clickable-stat"
@@ -502,7 +511,9 @@ async function showCustomers() {
             >
 
                 <div class="customer-stat-icon">
+
                     <i class="fa-solid fa-users"></i>
+
                 </div>
 
                 <div>
@@ -520,13 +531,17 @@ async function showCustomers() {
             </div>
 
 
+            <!-- TOTAL BOOKINGS -->
+
             <div
                 class="customer-stat-card clickable-stat"
                 id="totalBookingsCard"
             >
 
                 <div class="customer-stat-icon">
+
                     <i class="fa-solid fa-calendar-check"></i>
+
                 </div>
 
                 <div>
@@ -544,13 +559,17 @@ async function showCustomers() {
             </div>
 
 
+            <!-- REPEAT CUSTOMERS -->
+
             <div
-                class="customer-stat-card clickable-stat"
+                class="customer-stat-card"
                 id="repeatCustomersCard"
             >
 
                 <div class="customer-stat-icon">
+
                     <i class="fa-solid fa-repeat"></i>
+
                 </div>
 
                 <div>
@@ -568,13 +587,17 @@ async function showCustomers() {
             </div>
 
 
+            <!-- PENDING BOOKINGS -->
+
             <div
                 class="customer-stat-card clickable-stat"
                 id="pendingBookingsCard"
             >
 
                 <div class="customer-stat-icon pending">
+
                     <i class="fa-solid fa-clock"></i>
+
                 </div>
 
                 <div>
@@ -592,13 +615,17 @@ async function showCustomers() {
             </div>
 
 
+            <!-- COMPLETED BOOKINGS -->
+
             <div
                 class="customer-stat-card clickable-stat"
                 id="completedBookingsCard"
             >
 
                 <div class="customer-stat-icon completed">
+
                     <i class="fa-solid fa-circle-check"></i>
+
                 </div>
 
                 <div>
@@ -618,28 +645,187 @@ async function showCustomers() {
         </div>
 
 
-        <!-- CUSTOMER TABLE -->
+        <!-- ==========================================
+             PAYMENT & REVENUE STATISTICS
+        =========================================== -->
 
-        <div class="table customer-table-container">
+        <div class="revenue-stats-grid">
+
+
+            <!-- TOTAL SERVICE VALUE -->
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Service Value
+                    </span>
+
+                    <strong id="totalServiceValueStat">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- AMOUNT COLLECTED -->
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+
+                    <i class="fa-solid fa-money-bill-wave"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Amount Collected
+                    </span>
+
+                    <strong id="amountCollectedStat">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- OUTSTANDING -->
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Outstanding
+                    </span>
+
+                    <strong id="outstandingAmountStat">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAID BOOKINGS -->
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Paid Bookings
+                    </span>
+
+                    <strong id="paidBookingsStat">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PARTIAL PAYMENTS -->
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Partial Payments
+                    </span>
+
+                    <strong id="partialBookingsStat">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- UNPAID BOOKINGS -->
+
+            <div class="customer-stat-card">
+
+                <div class="customer-stat-icon">
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Unpaid Bookings
+                    </span>
+
+                    <strong id="unpaidBookingsStat">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+             CUSTOMER TABLE
+        =========================================== -->
+
+        <div class="table">
 
             <div class="table-header">
 
                 <div>
 
                     <h2>
-                        Customer List
+                        Customer Directory
                     </h2>
 
                     <p>
-                        Customers are automatically grouped
-                        from your bookings.
+                        All customers created from service bookings.
                     </p>
 
                 </div>
 
-
                 <span id="customerCount">
-                    Loading...
+                    0 Customers
                 </span>
 
             </div>
@@ -647,7 +833,7 @@ async function showCustomers() {
 
             <!-- SEARCH -->
 
-            <div class="customer-search-container">
+            <div class="customer-search-wrapper">
 
                 <div class="customer-search-box">
 
@@ -656,25 +842,23 @@ async function showCustomers() {
                     <input
                         type="text"
                         id="customerSearch"
-                        placeholder="Search by name, phone, email or service..."
-                        autocomplete="off"
-                    />
-
-                    <button
-                        id="clearCustomerSearch"
-                        type="button"
-                        title="Clear search"
-                        style="display: none;"
+                        placeholder="Search customers by name, phone, email or service..."
                     >
 
+                    <button
+                        type="button"
+                        id="clearCustomerSearch"
+                        style="display:none;"
+                    >
                         <i class="fa-solid fa-xmark"></i>
-
                     </button>
 
                 </div>
 
             </div>
 
+
+            <!-- CUSTOMER TABLE -->
 
             <div id="customersTable">
 
@@ -693,11 +877,11 @@ async function showCustomers() {
     `;
 
 
-    try {
+    // ==========================================
+    // LOAD CUSTOMERS
+    // ==========================================
 
-        // ------------------------------------------
-        // LOAD CUSTOMERS
-        // ------------------------------------------
+    try {
 
         const customers =
             await getCustomers();
@@ -738,9 +922,9 @@ async function showCustomers() {
         }
 
 
-        // ------------------------------------------
-        // CALCULATE CUSTOMER STATISTICS
-        // ------------------------------------------
+        // ==========================================
+        // CUSTOMER STATISTICS
+        // ==========================================
 
         const totalCustomers =
             customers.length;
@@ -769,12 +953,25 @@ async function showCustomers() {
             ).length;
 
 
-        // ------------------------------------------
-        // LOAD ALL BOOKINGS FOR STATUS COUNTS
-        // ------------------------------------------
+        // ==========================================
+        // BOOKING + PAYMENT STATISTICS
+        // ==========================================
 
         let pendingBookings = 0;
+
         let completedBookings = 0;
+
+        let totalServiceValue = 0;
+
+        let amountCollected = 0;
+
+        let outstandingAmount = 0;
+
+        let paidBookings = 0;
+
+        let partialBookings = 0;
+
+        let unpaidBookings = 0;
 
 
         try {
@@ -785,6 +982,10 @@ async function showCustomers() {
 
             allBookings.forEach(
                 (booking) => {
+
+                    // ==================================
+                    // BOOKING STATUS
+                    // ==================================
 
                     const status =
                         String(
@@ -809,56 +1010,233 @@ async function showCustomers() {
 
                     }
 
+
+                    // ==================================
+                    // PAYMENT VALUES
+                    // ==================================
+
+                    const paymentAmount =
+                        Number(
+                            booking.paymentAmount
+                        ) || 0;
+
+
+                    const paidAmount =
+                        Number(
+                            booking.paidAmount
+                        ) || 0;
+
+
+                    totalServiceValue +=
+                        paymentAmount;
+
+
+                    amountCollected +=
+                        paidAmount;
+
+
+                    outstandingAmount +=
+                        Math.max(
+                            0,
+                            paymentAmount -
+                            paidAmount
+                        );
+
+
+                    // ==================================
+                    // PAYMENT STATUS
+                    // ==================================
+
+                    if (
+                        paymentAmount > 0 &&
+                        paidAmount >= paymentAmount
+                    ) {
+
+                        paidBookings++;
+
+                    }
+                    else if (
+                        paidAmount > 0 &&
+                        paidAmount < paymentAmount
+                    ) {
+
+                        partialBookings++;
+
+                    }
+                    else {
+
+                        unpaidBookings++;
+
+                    }
+
                 }
             );
+
 
         } catch (statsError) {
 
             console.error(
-                "Unable to calculate booking status statistics:",
+                "Unable to calculate booking statistics:",
                 statsError
             );
 
         }
 
 
-        // ------------------------------------------
-        // UPDATE STAT CARDS
-        // ------------------------------------------
+        // ==========================================
+        // UPDATE CUSTOMER STATISTICS
+        // ==========================================
 
-        document.getElementById(
-            "totalCustomersStat"
-        ).textContent =
-            totalCustomers;
+        const totalCustomersElement =
+            document.getElementById(
+                "totalCustomersStat"
+            );
 
+        if (totalCustomersElement) {
 
-        document.getElementById(
-            "totalBookingsStat"
-        ).textContent =
-            totalBookings;
+            totalCustomersElement.textContent =
+                totalCustomers;
 
-
-        document.getElementById(
-            "repeatCustomersStat"
-        ).textContent =
-            repeatCustomers;
+        }
 
 
-        document.getElementById(
-            "pendingBookingsStat"
-        ).textContent =
-            pendingBookings;
+        const totalBookingsElement =
+            document.getElementById(
+                "totalBookingsStat"
+            );
+
+        if (totalBookingsElement) {
+
+            totalBookingsElement.textContent =
+                totalBookings;
+
+        }
 
 
-        document.getElementById(
-            "completedBookingsStat"
-        ).textContent =
-            completedBookings;
+        const repeatCustomersElement =
+            document.getElementById(
+                "repeatCustomersStat"
+            );
+
+        if (repeatCustomersElement) {
+
+            repeatCustomersElement.textContent =
+                repeatCustomers;
+
+        }
 
 
-        // ------------------------------------------
+        const pendingBookingsElement =
+            document.getElementById(
+                "pendingBookingsStat"
+            );
+
+        if (pendingBookingsElement) {
+
+            pendingBookingsElement.textContent =
+                pendingBookings;
+
+        }
+
+
+        const completedBookingsElement =
+            document.getElementById(
+                "completedBookingsStat"
+            );
+
+        if (completedBookingsElement) {
+
+            completedBookingsElement.textContent =
+                completedBookings;
+
+        }
+
+
+        // ==========================================
+        // UPDATE PAYMENT STATISTICS
+        // ==========================================
+
+        const totalServiceValueElement =
+            document.getElementById(
+                "totalServiceValueStat"
+            );
+
+        if (totalServiceValueElement) {
+
+            totalServiceValueElement.textContent =
+                `₹${totalServiceValue.toLocaleString("en-IN")}`;
+
+        }
+
+
+        const amountCollectedElement =
+            document.getElementById(
+                "amountCollectedStat"
+            );
+
+        if (amountCollectedElement) {
+
+            amountCollectedElement.textContent =
+                `₹${amountCollected.toLocaleString("en-IN")}`;
+
+        }
+
+
+        const outstandingAmountElement =
+            document.getElementById(
+                "outstandingAmountStat"
+            );
+
+        if (outstandingAmountElement) {
+
+            outstandingAmountElement.textContent =
+                `₹${outstandingAmount.toLocaleString("en-IN")}`;
+
+        }
+
+
+        const paidBookingsElement =
+            document.getElementById(
+                "paidBookingsStat"
+            );
+
+        if (paidBookingsElement) {
+
+            paidBookingsElement.textContent =
+                paidBookings;
+
+        }
+
+
+        const partialBookingsElement =
+            document.getElementById(
+                "partialBookingsStat"
+            );
+
+        if (partialBookingsElement) {
+
+            partialBookingsElement.textContent =
+                partialBookings;
+
+        }
+
+
+        const unpaidBookingsElement =
+            document.getElementById(
+                "unpaidBookingsStat"
+            );
+
+        if (unpaidBookingsElement) {
+
+            unpaidBookingsElement.textContent =
+                unpaidBookings;
+
+        }
+
+
+        // ==========================================
         // CUSTOMER COUNT
-        // ------------------------------------------
+        // ==========================================
 
         if (count) {
 
@@ -872,9 +1250,9 @@ async function showCustomers() {
         }
 
 
-        // ------------------------------------------
+        // ==========================================
         // RENDER CUSTOMER TABLE
-        // ------------------------------------------
+        // ==========================================
 
         function renderCustomerTable(
             filteredCustomers
@@ -891,6 +1269,10 @@ async function showCustomers() {
 
             }
 
+
+            // ======================================
+            // NO CUSTOMERS
+            // ======================================
 
             if (
                 filteredCustomers.length === 0
@@ -921,7 +1303,8 @@ async function showCustomers() {
 
                     `;
 
-                } else {
+                }
+                else {
 
                     table.innerHTML = `
 
@@ -948,6 +1331,10 @@ async function showCustomers() {
 
             }
 
+
+            // ======================================
+            // CUSTOMER TABLE
+            // ======================================
 
             table.innerHTML = `
 
@@ -1013,7 +1400,8 @@ async function showCustomers() {
                                                             escapeHtml(
                                                                 customer.name
                                                                     ?.charAt(0)
-                                                                    ?.toUpperCase() || "C"
+                                                                    ?.toUpperCase() ||
+                                                                "C"
                                                             )
                                                         }
 
@@ -1081,7 +1469,7 @@ async function showCustomers() {
 
                                                 <span class="booking-count">
 
-                                                    ${customer.bookings}
+                                                    ${customer.bookings || 0}
 
                                                 </span>
 
@@ -1093,7 +1481,10 @@ async function showCustomers() {
                                                 <div class="service-list">
 
                                                     ${
-                                                        customer.services
+                                                        (
+                                                            customer.services ||
+                                                            []
+                                                        )
                                                             .map(
                                                                 (service) => `
 
@@ -1146,46 +1537,52 @@ async function showCustomers() {
             `;
 
 
+            // ======================================
+            // CUSTOMER VIEW BUTTONS
+            // ======================================
+
             document
                 .querySelectorAll(
                     ".customer-view-btn"
                 )
-                .forEach((button) => {
+                .forEach(
+                    (button) => {
 
-                    button.addEventListener(
-                        "click",
-                        () => {
+                        button.addEventListener(
+                            "click",
+                            () => {
 
-                            const index =
-                                Number(
-                                    button.dataset.customerIndex
+                                const index =
+                                    Number(
+                                        button.dataset.customerIndex
+                                    );
+
+
+                                showCustomerDetails(
+                                    customers[index]
                                 );
 
+                            }
+                        );
 
-                            showCustomerDetails(
-                                customers[index]
-                            );
-
-                        }
-                    );
-
-                });
+                    }
+                );
 
         }
 
 
-        // ------------------------------------------
+        // ==========================================
         // INITIAL TABLE
-        // ------------------------------------------
+        // ==========================================
 
         renderCustomerTable(
             customers
         );
 
 
-        // ------------------------------------------
+        // ==========================================
         // SEARCH
-        // ------------------------------------------
+        // ==========================================
 
         searchInput?.addEventListener(
             "input",
@@ -1242,7 +1639,8 @@ async function showCustomers() {
 
                             const services =
                                 (
-                                    customer.services || []
+                                    customer.services ||
+                                    []
                                 )
                                     .join(" ")
                                     .toLowerCase();
@@ -1267,9 +1665,9 @@ async function showCustomers() {
         );
 
 
-        // ------------------------------------------
+        // ==========================================
         // CLEAR SEARCH
-        // ------------------------------------------
+        // ==========================================
 
         clearButton?.addEventListener(
             "click",
@@ -1295,115 +1693,124 @@ async function showCustomers() {
             }
         );
 
+
         // ==========================================
-// CUSTOMER STAT CARD ACTIONS
-// ==========================================
+        // CUSTOMER STAT CARD ACTIONS
+        // ==========================================
 
 
-// ------------------------------------------
-// TOTAL CUSTOMERS
-// ------------------------------------------
+        // ------------------------------------------
+        // TOTAL CUSTOMERS
+        // ------------------------------------------
 
-document
-    .getElementById("totalCustomersCard")
-    ?.addEventListener(
-        "click",
-        () => {
+        document
+            .getElementById(
+                "totalCustomersCard"
+            )
+            ?.addEventListener(
+                "click",
+                () => {
 
-            const searchInput =
-                document.getElementById(
-                    "customerSearch"
-                );
+                    const searchInput =
+                        document.getElementById(
+                            "customerSearch"
+                        );
 
-            searchInput?.focus();
+                    searchInput?.focus();
 
-        }
-    );
-
-
-// ------------------------------------------
-// TOTAL BOOKINGS
-// ------------------------------------------
-
-document
-    .getElementById("totalBookingsCard")
-    ?.addEventListener(
-        "click",
-        async () => {
-
-            const bookingsNav =
-                document.getElementById(
-                    "bookingsNav"
-                );
-
-
-            setActiveNav(
-                bookingsNav
+                }
             );
 
 
-            await showBookings();
+        // ------------------------------------------
+        // TOTAL BOOKINGS
+        // ------------------------------------------
 
-        }
-    );
+        document
+            .getElementById(
+                "totalBookingsCard"
+            )
+            ?.addEventListener(
+                "click",
+                async () => {
 
-
-// ------------------------------------------
-// PENDING BOOKINGS
-// ------------------------------------------
-
-document
-    .getElementById("pendingBookingsCard")
-    ?.addEventListener(
-        "click",
-        async () => {
-
-            const bookingsNav =
-                document.getElementById(
-                    "bookingsNav"
-                );
+                    const bookingsNav =
+                        document.getElementById(
+                            "bookingsNav"
+                        );
 
 
-            setActiveNav(
-                bookingsNav
+                    setActiveNav(
+                        bookingsNav
+                    );
+
+
+                    await showBookings();
+
+                }
             );
 
 
-            await showBookings(
-                "pending"
+        // ------------------------------------------
+        // PENDING BOOKINGS
+        // ------------------------------------------
+
+        document
+            .getElementById(
+                "pendingBookingsCard"
+            )
+            ?.addEventListener(
+                "click",
+                async () => {
+
+                    const bookingsNav =
+                        document.getElementById(
+                            "bookingsNav"
+                        );
+
+
+                    setActiveNav(
+                        bookingsNav
+                    );
+
+
+                    await showBookings(
+                        "pending"
+                    );
+
+                }
             );
 
-        }
-    );
+
+        // ------------------------------------------
+        // COMPLETED BOOKINGS
+        // ------------------------------------------
+
+        document
+            .getElementById(
+                "completedBookingsCard"
+            )
+            ?.addEventListener(
+                "click",
+                async () => {
+
+                    const bookingsNav =
+                        document.getElementById(
+                            "bookingsNav"
+                        );
 
 
-// ------------------------------------------
-// COMPLETED BOOKINGS
-// ------------------------------------------
-
-document
-    .getElementById("completedBookingsCard")
-    ?.addEventListener(
-        "click",
-        async () => {
-
-            const bookingsNav =
-                document.getElementById(
-                    "bookingsNav"
-                );
+                    setActiveNav(
+                        bookingsNav
+                    );
 
 
-            setActiveNav(
-                bookingsNav
+                    await showBookings(
+                        "completed"
+                    );
+
+                }
             );
-
-
-            await showBookings(
-                "completed"
-            );
-
-        }
-    );
 
 
     } catch (error) {

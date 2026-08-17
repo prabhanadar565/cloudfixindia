@@ -146,6 +146,116 @@ export async function getCancelledBookings() {
 
 }
 
+// --------------------
+// Update Payment
+// --------------------
+export async function updateBookingPayment(
+    id,
+    paymentAmount,
+    paidAmount,
+    paymentMethod
+) {
+
+    const amount =
+        Number(paymentAmount) || 0;
+
+    const paid =
+        Number(paidAmount) || 0;
+
+
+    // ==========================================
+    // VALIDATION
+    // ==========================================
+
+    if (amount < 0) {
+
+        throw new Error(
+            "Service amount cannot be negative."
+        );
+
+    }
+
+
+    if (paid < 0) {
+
+        throw new Error(
+            "Paid amount cannot be negative."
+        );
+
+    }
+
+
+    if (paid > amount) {
+
+        throw new Error(
+            "Paid amount cannot be greater than the service amount."
+        );
+
+    }
+
+
+    // ==========================================
+    // PAYMENT STATUS
+    // ==========================================
+
+    let paymentStatus =
+        "unpaid";
+
+
+    if (
+        paid > 0 &&
+        paid < amount
+    ) {
+
+        paymentStatus =
+            "partial";
+
+    }
+
+
+    if (
+        amount > 0 &&
+        paid >= amount
+    ) {
+
+        paymentStatus =
+            "paid";
+
+    }
+
+
+    // ==========================================
+    // SAVE PAYMENT
+    // ==========================================
+
+    await updateDoc(
+
+        doc(
+            db,
+            "bookings",
+            id
+        ),
+
+        {
+
+            paymentAmount:
+                amount,
+
+            paidAmount:
+                paid,
+
+            paymentStatus:
+                paymentStatus,
+
+            paymentMethod:
+                paymentMethod || ""
+
+        }
+
+    );
+
+}
+
 
 // ==========================================
 // Accept Booking

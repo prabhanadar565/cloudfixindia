@@ -271,6 +271,7 @@ export async function getCustomerBookingsForStats() {
     const bookingsRef =
         collection(db, "bookings");
 
+
     const snapshot =
         await getDocs(bookingsRef);
 
@@ -286,17 +287,48 @@ export async function getCustomerBookingsForStats() {
 
         bookings.push({
 
+            // ==================================
+            // BASIC BOOKING INFORMATION
+            // ==================================
+
             id:
                 document.id,
+
 
             status:
                 booking.status || "pending",
 
+
             service:
                 booking.service || "",
 
+
             createdAt:
-                booking.createdAt || null
+                booking.createdAt || null,
+
+
+            // ==================================
+            // PAYMENT INFORMATION
+            // ==================================
+
+            paymentAmount:
+                Number(
+                    booking.paymentAmount
+                ) || 0,
+
+
+            paidAmount:
+                Number(
+                    booking.paidAmount
+                ) || 0,
+
+
+            paymentStatus:
+                booking.paymentStatus || "unpaid",
+
+
+            paymentMethod:
+                booking.paymentMethod || ""
 
         });
 

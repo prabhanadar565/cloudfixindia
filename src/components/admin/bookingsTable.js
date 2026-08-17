@@ -3,22 +3,21 @@ import {
     acceptBooking,
     completeBooking,
     cancelBooking,
-    deleteBooking
+    deleteBooking,
+    updateBookingPayment
 } from "../../firebase/bookingService";
 
 
 let allBookings = [];
-
 let currentFilter = "all";
-
 let currentSearch = "";
 
 
-// ==========================================
-// LOAD BOOKINGS
-// ==========================================
+/* ==========================================
+   LOAD BOOKINGS
+========================================== */
 
-export async function loadBookings(statusFilter = null) {
+export async function loadBookings() {
 
     const container =
         document.getElementById("bookingsTable");
@@ -26,54 +25,22 @@ export async function loadBookings(statusFilter = null) {
     if (!container) return;
 
 
-    // ------------------------------------------
-    // SET INITIAL FILTER
-    // ------------------------------------------
-
-    currentFilter =
-        statusFilter || "all";
-
-
-    // Reset search whenever we open
-    // the bookings page from a statistic card
-
-    currentSearch = "";
-
-
     container.innerHTML = `
         <div class="booking-loading">
-
             <i class="fa-solid fa-spinner fa-spin"></i>
-
             Loading bookings...
-
         </div>
     `;
 
 
     try {
 
-        // --------------------------------------
-        // LOAD ALL BOOKINGS
-        // --------------------------------------
-
         allBookings =
             await getAllBookings();
 
-
-        // --------------------------------------
-        // RENDER CONTROLS
-        // --------------------------------------
-
         renderBookingControls();
 
-
-        // --------------------------------------
-        // RENDER BOOKINGS
-        // --------------------------------------
-
         renderBookings();
-
 
     } catch (error) {
 
@@ -82,9 +49,7 @@ export async function loadBookings(statusFilter = null) {
             error
         );
 
-
         container.innerHTML = `
-
             <div class="booking-empty">
 
                 <i class="fa-solid fa-triangle-exclamation"></i>
@@ -94,21 +59,21 @@ export async function loadBookings(statusFilter = null) {
                 </p>
 
             </div>
-
         `;
-
     }
-
 }
 
+
 /* ==========================================
-   CONTROLS
+   BOOKING CONTROLS
 ========================================== */
 
 function renderBookingControls() {
 
     const container =
-        document.getElementById("bookingsTable");
+        document.getElementById(
+            "bookingsTable"
+        );
 
     if (!container) return;
 
@@ -125,7 +90,7 @@ function renderBookingControls() {
                     type="text"
                     id="bookingSearch"
                     placeholder="Search customer, phone, service or booking ID..."
-                    value="${currentSearch}"
+                    value="${escapeHtml(currentSearch)}"
                 >
 
             </div>
@@ -136,45 +101,35 @@ function renderBookingControls() {
                 <button
                     class="booking-filter active"
                     data-filter="all">
-
                     All
-
                 </button>
 
 
                 <button
                     class="booking-filter"
                     data-filter="pending">
-
                     Pending
-
                 </button>
 
 
                 <button
                     class="booking-filter"
                     data-filter="accepted">
-
                     Accepted
-
                 </button>
 
 
                 <button
                     class="booking-filter"
                     data-filter="completed">
-
                     Completed
-
                 </button>
 
 
                 <button
                     class="booking-filter"
                     data-filter="cancelled">
-
                     Cancelled
-
                 </button>
 
             </div>
@@ -188,7 +143,6 @@ function renderBookingControls() {
 
 
     attachControlEvents();
-
 }
 
 
@@ -199,59 +153,76 @@ function renderBookingControls() {
 function renderBookings() {
 
     const container =
-        document.getElementById("bookingResults");
+        document.getElementById(
+            "bookingResults"
+        );
 
     if (!container) return;
 
 
     const filteredBookings =
-        allBookings.filter(booking => {
+        allBookings.filter(
+            booking => {
 
-            const customer =
-                booking.customer || {};
+                const customer =
+                    booking.customer || {};
 
-            const search =
-                currentSearch.toLowerCase();
-
-
-            const matchesSearch =
-
-                !search ||
-
-                String(booking.id || "")
-                    .toLowerCase()
-                    .includes(search) ||
-
-                String(booking.service || "")
-                    .toLowerCase()
-                    .includes(search) ||
-
-                String(customer.name || "")
-                    .toLowerCase()
-                    .includes(search) ||
-
-                String(customer.phone || "")
-                    .toLowerCase()
-                    .includes(search) ||
-
-                String(customer.email || "")
-                    .toLowerCase()
-                    .includes(search);
+                const search =
+                    currentSearch
+                        .toLowerCase()
+                        .trim();
 
 
-            const matchesFilter =
+                const matchesSearch =
+                    !search ||
 
-                currentFilter === "all" ||
+                    String(
+                        booking.id || ""
+                    )
+                        .toLowerCase()
+                        .includes(search) ||
 
-                booking.status === currentFilter;
+                    String(
+                        booking.service || ""
+                    )
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    String(
+                        customer.name || ""
+                    )
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    String(
+                        customer.phone || ""
+                    )
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    String(
+                        customer.email || ""
+                    )
+                        .toLowerCase()
+                        .includes(search);
 
 
-            return matchesSearch && matchesFilter;
+                const matchesFilter =
+                    currentFilter === "all" ||
+                    booking.status === currentFilter;
 
-        });
+
+                return (
+                    matchesSearch &&
+                    matchesFilter
+                );
+            }
+        );
 
 
-    if (filteredBookings.length === 0) {
+    if (
+        filteredBookings.length === 0
+    ) {
 
         container.innerHTML = `
 
@@ -274,12 +245,15 @@ function renderBookings() {
         updateBookingCount(0);
 
         return;
-
     }
 
 
     container.innerHTML =
-        filteredBookings.map(renderBookingCard).join("");
+        filteredBookings
+            .map(
+                renderBookingCard
+            )
+            .join("");
 
 
     updateBookingCount(
@@ -288,7 +262,6 @@ function renderBookings() {
 
 
     attachBookingEvents();
-
 }
 
 
@@ -296,7 +269,9 @@ function renderBookings() {
    BOOKING CARD
 ========================================== */
 
-function renderBookingCard(booking) {
+function renderBookingCard(
+    booking
+) {
 
     const customer =
         booking.customer || {};
@@ -306,6 +281,65 @@ function renderBookingCard(booking) {
 
     const status =
         booking.status || "pending";
+
+
+    // ==========================================
+    // PAYMENT SUMMARY
+    // ==========================================
+
+    const paymentAmount =
+        Number(
+            booking.paymentAmount
+        ) || 0;
+
+
+    const paidAmount =
+        Number(
+            booking.paidAmount
+        ) || 0;
+
+
+    const remainingAmount =
+        Math.max(
+            0,
+            paymentAmount - paidAmount
+        );
+
+
+    let paymentLabel =
+        "Unpaid";
+
+    let paymentClass =
+        "unpaid";
+
+
+    if (
+        paymentAmount > 0 &&
+        paidAmount > 0 &&
+        paidAmount < paymentAmount
+    ) {
+
+        paymentLabel =
+            "Partial";
+
+        paymentClass =
+            "partial";
+
+    }
+
+
+    if (
+        paymentAmount > 0 &&
+        paidAmount >= paymentAmount
+    ) {
+
+        paymentLabel =
+            "Paid";
+
+        paymentClass =
+            "paid";
+
+    }
 
 
     return `
@@ -412,13 +446,108 @@ function renderBookingCard(booking) {
 
                 </div>
 
+
+                <!-- ==================================
+                     PAYMENT SUMMARY
+                ================================== -->
+
+                <div
+                    style="
+                        margin-top:12px;
+                        display:flex;
+                        align-items:center;
+                        flex-wrap:wrap;
+                        gap:10px;
+                        font-size:13px;
+                    "
+                >
+
+                    <span
+                        style="
+                            font-weight:700;
+                            color:#475569;
+                        "
+                    >
+
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                        Payment:
+
+                    </span>
+
+
+                    <span
+                        style="
+                            font-weight:700;
+                            color:#0f172a;
+                        "
+                    >
+
+                        ₹${paidAmount}
+                        /
+                        ₹${paymentAmount}
+
+                    </span>
+
+
+                    <span
+                        style="
+                            display:inline-block;
+                            padding:4px 10px;
+                            border-radius:20px;
+                            font-size:11px;
+                            font-weight:700;
+
+                            ${
+                                paymentClass === "paid"
+                                    ? `
+                                        background:#dcfce7;
+                                        color:#15803d;
+                                    `
+                                    : paymentClass === "partial"
+                                        ? `
+                                            background:#fef3c7;
+                                            color:#b45309;
+                                        `
+                                        : `
+                                            background:#fee2e2;
+                                            color:#b91c1c;
+                                        `
+                            }
+                        "
+                    >
+
+                        ${paymentLabel}
+
+                    </span>
+
+
+                    ${
+                        remainingAmount > 0
+                            ? `
+                                <span
+                                    style="
+                                        color:#64748b;
+                                    "
+                                >
+
+                                    ₹${remainingAmount} due
+
+                                </span>
+                            `
+                            : ""
+                    }
+
+                </div>
+
             </div>
 
 
             <div class="booking-side">
 
                 <span
-                    class="booking-status status-${status}">
+                    class="booking-status status-${status}"
+                >
 
                     ${formatStatus(status)}
 
@@ -427,7 +556,8 @@ function renderBookingCard(booking) {
 
                 <button
                     class="booking-view"
-                    data-id="${booking.id}">
+                    data-id="${booking.id}"
+                >
 
                     <i class="fa-solid fa-eye"></i>
 
@@ -449,21 +579,23 @@ function renderBookingCard(booking) {
         </div>
 
     `;
-
 }
-
 
 /* ==========================================
    ACTION BUTTONS
 ========================================== */
 
-function getActionButtons(booking) {
+function getActionButtons(
+    booking
+) {
 
     const status =
         booking.status;
 
 
-    if (status === "pending") {
+    if (
+        status === "pending"
+    ) {
 
         return `
 
@@ -503,11 +635,12 @@ function getActionButtons(booking) {
             </button>
 
         `;
-
     }
 
 
-    if (status === "accepted") {
+    if (
+        status === "accepted"
+    ) {
 
         return `
 
@@ -547,7 +680,6 @@ function getActionButtons(booking) {
             </button>
 
         `;
-
     }
 
 
@@ -565,7 +697,6 @@ function getActionButtons(booking) {
         </button>
 
     `;
-
 }
 
 
@@ -602,38 +733,41 @@ function attachControlEvents() {
         .querySelectorAll(
             ".booking-filter"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.onclick = () => {
+                button.onclick = () => {
 
-                currentFilter =
-                    button.dataset.filter;
+                    currentFilter =
+                        button.dataset.filter;
 
 
-                document
-                    .querySelectorAll(
-                        ".booking-filter"
-                    )
-                    .forEach(btn => {
+                    document
+                        .querySelectorAll(
+                            ".booking-filter"
+                        )
+                        .forEach(
+                            btn => {
 
-                        btn.classList.remove(
-                            "active"
+                                btn.classList.remove(
+                                    "active"
+                                );
+
+                            }
                         );
 
-                    });
+
+                    button.classList.add(
+                        "active"
+                    );
 
 
-                button.classList.add(
-                    "active"
-                );
+                    renderBookings();
 
+                };
 
-                renderBookings();
-
-            };
-
-        });
-
+            }
+        );
 }
 
 
@@ -647,153 +781,161 @@ function attachBookingEvents() {
         .querySelectorAll(
             ".booking-action"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.onclick = async () => {
+                button.onclick =
+                    async () => {
 
-                const id =
-                    button.dataset.id;
+                        const id =
+                            button.dataset.id;
 
-                const action =
-                    button.dataset.action;
-
-
-                try {
-
-                    button.disabled = true;
+                        const action =
+                            button.dataset.action;
 
 
-                    if (
-                        action === "accept"
-                    ) {
+                        try {
 
-                        await acceptBooking(
-                            id
-                        );
-
-                    }
+                            button.disabled =
+                                true;
 
 
-                    if (
-                        action === "complete"
-                    ) {
+                            if (
+                                action ===
+                                "accept"
+                            ) {
 
-                        await completeBooking(
-                            id
-                        );
+                                await acceptBooking(
+                                    id
+                                );
 
-                    }
+                            }
 
 
-                    if (
-                        action === "cancel"
-                    ) {
+                            if (
+                                action ===
+                                "complete"
+                            ) {
 
-                        if (
-                            !confirm(
-                                "Cancel this booking?"
-                            )
+                                await completeBooking(
+                                    id
+                                );
+
+                            }
+
+
+                            if (
+                                action ===
+                                "cancel"
+                            ) {
+
+                                if (
+                                    !confirm(
+                                        "Cancel this booking?"
+                                    )
+                                ) {
+
+                                    button.disabled =
+                                        false;
+
+                                    return;
+                                }
+
+
+                                await cancelBooking(
+                                    id
+                                );
+
+                            }
+
+
+                            if (
+                                action ===
+                                "delete"
+                            ) {
+
+                                if (
+                                    !confirm(
+                                        "Delete this booking permanently?"
+                                    )
+                                ) {
+
+                                    button.disabled =
+                                        false;
+
+                                    return;
+                                }
+
+
+                                await deleteBooking(
+                                    id
+                                );
+
+                            }
+
+
+                            await loadBookings();
+
+                        } catch (
+                            error
                         ) {
+
+                            console.error(
+                                "Booking action failed:",
+                                error
+                            );
+
+
+                            alert(
+                                "Unable to update the booking. Please try again."
+                            );
+
 
                             button.disabled =
                                 false;
-
-                            return;
-
                         }
 
+                    };
 
-                        await cancelBooking(
-                            id
-                        );
-
-                    }
-
-
-                    if (
-                        action === "delete"
-                    ) {
-
-                        if (
-                            !confirm(
-                                "Delete this booking permanently?"
-                            )
-                        ) {
-
-                            button.disabled =
-                                false;
-
-                            return;
-
-                        }
-
-
-                        await deleteBooking(
-                            id
-                        );
-
-                    }
-
-
-                    await loadBookings();
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Booking action failed:",
-                        error
-                    );
-
-
-                    alert(
-                        "Unable to update the booking. Please try again."
-                    );
-
-
-                    button.disabled =
-                        false;
-
-                }
-
-            };
-
-        });
+            }
+        );
 
 
     document
         .querySelectorAll(
             ".booking-view"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.onclick = () => {
+                button.onclick =
+                    () => {
 
-                const booking =
-                    allBookings.find(
-                        item =>
-                            item.id ===
-                            button.dataset.id
-                    );
+                        const booking =
+                            allBookings.find(
+                                item =>
+                                    item.id ===
+                                    button.dataset.id
+                            );
 
 
-                if (booking) {
+                        if (booking) {
 
-                    showBookingDetails(
-                        booking
-                    );
+                            showBookingDetails(
+                                booking
+                            );
 
-                }
+                        }
 
-            };
+                    };
 
-        });
-
+            }
+        );
 }
 
 
 /* ==========================================
-   DETAILS MODAL
+   BOOKING DETAILS MODAL
 ========================================== */
 
 function showBookingDetails(
@@ -823,17 +965,32 @@ function showBookingDetails(
         "booking-details-modal";
 
 
+    const paymentAmount =
+        Number(
+            booking.paymentAmount
+        ) || 0;
+
+
+    const paidAmount =
+        Number(
+            booking.paidAmount
+        ) || 0;
+
+
+    const remainingAmount =
+        Math.max(
+            0,
+            paymentAmount -
+            paidAmount
+        );
+
+
     modal.innerHTML = `
 
         <div class="booking-details-overlay"></div>
 
 
         <div class="booking-details-dialog">
-
-
-            <!-- ==================================
-                 HEADER
-                 ================================== -->
 
             <div class="booking-details-header">
 
@@ -844,12 +1001,10 @@ function showBookingDetails(
                     </span>
 
                     <h2>
-
                         ${escapeHtml(
                             booking.service ||
                             "Service"
                         )}
-
                     </h2>
 
                 </div>
@@ -857,9 +1012,7 @@ function showBookingDetails(
 
                 <button
                     class="booking-modal-close"
-                    aria-label="Close"
-                    type="button"
-                >
+                    aria-label="Close">
 
                     <i class="fa-solid fa-xmark"></i>
 
@@ -868,56 +1021,32 @@ function showBookingDetails(
             </div>
 
 
-
-            <!-- ==================================
-                 BODY
-                 ================================== -->
-
             <div class="booking-details-body">
-
-
-                <!-- STATUS -->
 
                 <div class="details-status">
 
                     <span
-                        class="
-                            booking-status
-                            status-${status}
-                        "
-                    >
-
+                        class="booking-status status-${status}">
                         ${formatStatus(status)}
-
                     </span>
 
 
                     <span>
-
                         #${escapeHtml(
                             booking.id
                         )}
-
                     </span>
 
                 </div>
 
 
-
-                <!-- ==================================
-                     CUSTOMER
-                     ================================== -->
+                <!-- CUSTOMER -->
 
                 <div class="details-section">
 
                     <h3>
 
-                        <i
-                            class="
-                                fa-solid
-                                fa-user
-                            "
-                        ></i>
+                        <i class="fa-solid fa-user"></i>
 
                         Customer
 
@@ -926,20 +1055,15 @@ function showBookingDetails(
 
                     <div class="details-grid">
 
-
                         <div>
 
-                            <span>
-                                Name
-                            </span>
+                            <span>Name</span>
 
                             <strong>
-
                                 ${escapeHtml(
                                     customer.name ||
                                     "N/A"
                                 )}
-
                             </strong>
 
                         </div>
@@ -947,17 +1071,13 @@ function showBookingDetails(
 
                         <div>
 
-                            <span>
-                                Phone
-                            </span>
+                            <span>Phone</span>
 
                             <strong>
-
                                 ${escapeHtml(
                                     customer.phone ||
                                     "N/A"
                                 )}
-
                             </strong>
 
                         </div>
@@ -965,147 +1085,29 @@ function showBookingDetails(
 
                         <div>
 
-                            <span>
-                                Email
-                            </span>
+                            <span>Email</span>
 
                             <strong>
-
                                 ${escapeHtml(
                                     customer.email ||
                                     "N/A"
                                 )}
-
                             </strong>
 
                         </div>
-
-
-                    </div>
-
-
-                    <!-- ==================================
-                         CUSTOMER CONTACT ACTIONS
-                         ================================== -->
-
-                    <div class="customer-contact-actions">
-
-
-                        ${
-                            customer.phone
-                                ? `
-
-                                    <a
-                                        href="tel:${escapeHtml(
-                                            customer.phone
-                                        )}"
-                                        class="
-                                            customer-contact-btn
-                                            call
-                                        "
-                                    >
-
-                                        <i
-                                            class="
-                                                fa-solid
-                                                fa-phone
-                                            "
-                                        ></i>
-
-                                        Call Customer
-
-                                    </a>
-
-                                `
-                                : ""
-                        }
-
-
-
-                        ${
-                            customer.phone
-                                ? `
-
-                                    <a
-                                        href="${createWhatsAppLink(
-                                            customer.phone,
-                                            booking
-                                        )}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="
-                                            customer-contact-btn
-                                            whatsapp
-                                        "
-                                    >
-
-                                        <i
-                                            class="
-                                                fa-brands
-                                                fa-whatsapp
-                                            "
-                                        ></i>
-
-                                        WhatsApp
-
-                                    </a>
-
-                                `
-                                : ""
-                        }
-
-
-
-                        ${
-                            customer.email
-                                ? `
-
-                                    <a
-                                        href="mailto:${escapeHtml(
-                                            customer.email
-                                        )}"
-                                        class="
-                                            customer-contact-btn
-                                            email
-                                    "
-                                    >
-
-                                        <i
-                                            class="
-                                                fa-solid
-                                                fa-envelope
-                                            "
-                                        ></i>
-
-                                        Email Customer
-
-                                    </a>
-
-                                `
-                                : ""
-                        }
-
 
                     </div>
 
                 </div>
 
 
-
-                <!-- ==================================
-                     VISIT
-                     ================================== -->
+                <!-- VISIT -->
 
                 <div class="details-section">
 
                     <h3>
 
-                        <i
-                            class="
-                                fa-regular
-                                fa-calendar
-                            "
-                        ></i>
+                        <i class="fa-regular fa-calendar"></i>
 
                         Visit
 
@@ -1114,19 +1116,14 @@ function showBookingDetails(
 
                     <div class="details-grid">
 
-
                         <div>
 
-                            <span>
-                                Date
-                            </span>
+                            <span>Date</span>
 
                             <strong>
-
                                 ${formatDate(
                                     visit.date
                                 )}
-
                             </strong>
 
                         </div>
@@ -1134,42 +1131,29 @@ function showBookingDetails(
 
                         <div>
 
-                            <span>
-                                Time
-                            </span>
+                            <span>Time</span>
 
                             <strong>
-
                                 ${escapeHtml(
                                     visit.time ||
                                     "N/A"
                                 )}
-
                             </strong>
 
                         </div>
-
 
                     </div>
 
                 </div>
 
 
-
-                <!-- ==================================
-                     ADDRESS
-                     ================================== -->
+                <!-- ADDRESS -->
 
                 <div class="details-section">
 
                     <h3>
 
-                        <i
-                            class="
-                                fa-solid
-                                fa-location-dot
-                            "
-                        ></i>
+                        <i class="fa-solid fa-location-dot"></i>
 
                         Address
 
@@ -1188,21 +1172,13 @@ function showBookingDetails(
                 </div>
 
 
-
-                <!-- ==================================
-                     PROBLEM
-                     ================================== -->
+                <!-- PROBLEM -->
 
                 <div class="details-section">
 
                     <h3>
 
-                        <i
-                            class="
-                                fa-solid
-                                fa-message
-                            "
-                        ></i>
+                        <i class="fa-solid fa-message"></i>
 
                         Problem
 
@@ -1221,13 +1197,321 @@ function showBookingDetails(
                 </div>
 
 
+                <!-- ==================================
+                     PAYMENT
+                ================================== -->
+
+                <div
+                    class="details-section"
+                    style="
+                        background:#f8fafc;
+                        border:1px solid #e2e8f0;
+                        border-radius:14px;
+                        padding:18px;
+                    "
+                >
+
+                    <h3>
+
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                        Payment
+
+                    </h3>
+
+
+                    <div
+                        style="
+                            display:grid;
+                            grid-template-columns:
+                            repeat(auto-fit,minmax(180px,1fr));
+                            gap:14px;
+                            margin-top:15px;
+                        "
+                    >
+
+                        <!-- SERVICE AMOUNT -->
+
+                        <div>
+
+                            <label
+                                for="paymentAmount"
+                                style="
+                                    display:block;
+                                    font-weight:600;
+                                    margin-bottom:6px;
+                                "
+                            >
+                                Service Amount
+                            </label>
+
+
+                            <input
+                                id="paymentAmount"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="${paymentAmount}"
+                                style="
+                                    width:100%;
+                                    box-sizing:border-box;
+                                    padding:11px;
+                                    border:1px solid #cbd5e1;
+                                    border-radius:8px;
+                                    font-size:15px;
+                                "
+                            >
+
+                        </div>
+
+
+                        <!-- PAID AMOUNT -->
+
+                        <div>
+
+                            <label
+                                for="paidAmount"
+                                style="
+                                    display:block;
+                                    font-weight:600;
+                                    margin-bottom:6px;
+                                "
+                            >
+                                Amount Paid
+                            </label>
+
+
+                            <input
+                                id="paidAmount"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="${paidAmount}"
+                                style="
+                                    width:100%;
+                                    box-sizing:border-box;
+                                    padding:11px;
+                                    border:1px solid #cbd5e1;
+                                    border-radius:8px;
+                                    font-size:15px;
+                                "
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PAYMENT METHOD -->
+
+                    <div
+                        style="
+                            margin-top:14px;
+                        "
+                    >
+
+                        <label
+                            for="paymentMethod"
+                            style="
+                                display:block;
+                                font-weight:600;
+                                margin-bottom:6px;
+                            "
+                        >
+                            Payment Method
+                        </label>
+
+
+                        <select
+                            id="paymentMethod"
+                            style="
+                                width:100%;
+                                box-sizing:border-box;
+                                padding:11px;
+                                border:1px solid #cbd5e1;
+                                border-radius:8px;
+                                font-size:15px;
+                                background:white;
+                            "
+                        >
+
+                            <option
+                                value=""
+                                ${
+                                    !booking.paymentMethod
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Select Payment Method
+                            </option>
+
+
+                            <option
+                                value="cash"
+                                ${
+                                    booking.paymentMethod ===
+                                    "cash"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Cash
+                            </option>
+
+
+                            <option
+                                value="upi"
+                                ${
+                                    booking.paymentMethod ===
+                                    "upi"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                UPI
+                            </option>
+
+
+                            <option
+                                value="card"
+                                ${
+                                    booking.paymentMethod ===
+                                    "card"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Card
+                            </option>
+
+
+                            <option
+                                value="bank"
+                                ${
+                                    booking.paymentMethod ===
+                                    "bank"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Bank Transfer
+                            </option>
+
+
+                            <option
+                                value="other"
+                                ${
+                                    booking.paymentMethod ===
+                                    "other"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- PAYMENT SUMMARY -->
+
+                    <div
+                        style="
+                            display:flex;
+                            flex-wrap:wrap;
+                            gap:25px;
+                            align-items:center;
+                            margin-top:18px;
+                            padding-top:15px;
+                            border-top:1px solid #e2e8f0;
+                        "
+                    >
+
+                        <div>
+
+                            <span
+                                style="
+                                    display:block;
+                                    font-size:13px;
+                                    color:#64748b;
+                                    margin-bottom:5px;
+                                "
+                            >
+                                Payment Status
+                            </span>
+
+
+                            <strong
+                                id="paymentStatusDisplay"
+                            >
+                                ${getPaymentStatusLabel(
+                                    paymentAmount,
+                                    paidAmount
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span
+                                style="
+                                    display:block;
+                                    font-size:13px;
+                                    color:#64748b;
+                                    margin-bottom:5px;
+                                "
+                            >
+                                Remaining
+                            </span>
+
+
+                            <strong
+                                id="paymentRemaining"
+                            >
+                                ₹${remainingAmount}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SAVE PAYMENT -->
+
+                    <button
+                        type="button"
+                        id="savePaymentBtn"
+                        style="
+                            margin-top:18px;
+                            width:100%;
+                            padding:12px 16px;
+                            border:none;
+                            border-radius:9px;
+                            background:#2563eb;
+                            color:white;
+                            font-size:15px;
+                            font-weight:600;
+                            cursor:pointer;
+                        "
+                    >
+
+                        <i class="fa-solid fa-floppy-disk"></i>
+
+                        Save Payment
+
+                    </button>
+
+                </div>
+
             </div>
 
 
-
-            <!-- ==================================
-                 ACTIONS
-                 ================================== -->
+            <!-- ACTIONS -->
 
             <div class="booking-details-footer">
 
@@ -1236,7 +1520,6 @@ function showBookingDetails(
                 )}
 
             </div>
-
 
         </div>
 
@@ -1247,6 +1530,10 @@ function showBookingDetails(
         modal
     );
 
+
+    /* ==========================================
+       CLOSE BUTTON
+    ========================================== */
 
     const close =
         modal.querySelector(
@@ -1275,86 +1562,335 @@ function showBookingDetails(
 
         };
 
-}
+
+    /* ==========================================
+       PAYMENT LIVE CALCULATION
+    ========================================== */
+
+    const amountInput =
+        modal.querySelector(
+            "#paymentAmount"
+        );
 
 
-/* ==========================================
-   WHATSAPP LINK
-========================================== */
+    const paidInput =
+        modal.querySelector(
+            "#paidAmount"
+        );
 
-function createWhatsAppLink(
-    phone,
-    booking
-) {
 
-    let number =
-        String(phone)
-            .replace(
-                /\D/g,
-                ""
+    const statusDisplay =
+        modal.querySelector(
+            "#paymentStatusDisplay"
+        );
+
+
+    const remainingDisplay =
+        modal.querySelector(
+            "#paymentRemaining"
+        );
+
+
+    function updatePaymentPreview() {
+
+        const amount =
+            Number(
+                amountInput.value
+            ) || 0;
+
+
+        const paid =
+            Number(
+                paidInput.value
+            ) || 0;
+
+
+        const remaining =
+            Math.max(
+                0,
+                amount - paid
             );
 
 
-    // ------------------------------------------
-    // INDIA PHONE NUMBER
-    // ------------------------------------------
+        statusDisplay.innerHTML =
+            getPaymentStatusLabel(
+                amount,
+                paid
+            );
 
-    if (
-        number.length === 10
-    ) {
 
-        number =
-            "91" +
-            number;
+        remainingDisplay.textContent =
+            `₹${remaining}`;
 
     }
 
 
-    if (
-        number.startsWith("0")
-    ) {
-
-        number =
-            "91" +
-            number.substring(1);
-
-    }
-
-
-    const customer =
-        booking.customer || {};
-
-
-    const visit =
-        booking.visit || {};
-
-
-    const message =
-
-`Hello ${customer.name || "Customer"},
-
-This is CloudFix India regarding your service booking.
-
-Service: ${booking.service || "N/A"}
-Booking ID: ${booking.id || "N/A"}
-Date: ${visit.date || "N/A"}
-Time: ${visit.time || "N/A"}
-
-Please let us know if you have any questions.
-
-Thank you,
-CloudFix India`;
-
-
-    return (
-        "https://wa.me/" +
-        number +
-        "?text=" +
-        encodeURIComponent(
-            message
-        )
+    amountInput.addEventListener(
+        "input",
+        updatePaymentPreview
     );
 
+
+    paidInput.addEventListener(
+        "input",
+        updatePaymentPreview
+    );
+
+
+    /* ==========================================
+       SAVE PAYMENT
+    ========================================== */
+
+    const savePaymentBtn =
+        modal.querySelector(
+            "#savePaymentBtn"
+        );
+
+
+    savePaymentBtn.onclick =
+        async () => {
+
+            const amount =
+                Number(
+                    amountInput.value
+                ) || 0;
+
+
+            const paid =
+                Number(
+                    paidInput.value
+                ) || 0;
+
+
+            const method =
+                modal.querySelector(
+                    "#paymentMethod"
+                ).value;
+
+
+            if (amount < 0) {
+
+                alert(
+                    "Service amount cannot be negative."
+                );
+
+                return;
+            }
+
+
+            if (paid < 0) {
+
+                alert(
+                    "Paid amount cannot be negative."
+                );
+
+                return;
+            }
+
+
+            if (
+                paid > amount &&
+                amount > 0
+            ) {
+
+                alert(
+                    "Paid amount cannot be greater than the service amount."
+                );
+
+                return;
+            }
+
+
+            try {
+
+                savePaymentBtn.disabled =
+                    true;
+
+
+                savePaymentBtn.innerHTML = `
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    Saving...
+
+                `;
+
+
+                await updateBookingPayment(
+                    booking.id,
+                    amount,
+                    paid,
+                    method
+                );
+
+
+                alert(
+                    "Payment updated successfully."
+                );
+
+
+                closeBookingModal();
+
+
+                await loadBookings();
+
+            } catch (error) {
+
+                console.error(
+                    "Payment update failed:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to update payment. Please try again."
+                );
+
+
+                savePaymentBtn.disabled =
+                    false;
+
+
+                savePaymentBtn.innerHTML = `
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Payment
+
+                `;
+
+            }
+
+        };
+
+
+    /* ==========================================
+       MODAL ACTION BUTTONS
+    ========================================== */
+
+    modal
+        .querySelectorAll(
+            ".modal-action"
+        )
+        .forEach(
+            button => {
+
+                button.onclick =
+                    async () => {
+
+                        const id =
+                            button.dataset.id;
+
+                        const action =
+                            button.dataset.action;
+
+
+                        try {
+
+                            button.disabled =
+                                true;
+
+
+                            if (
+                                action ===
+                                "accept"
+                            ) {
+
+                                await acceptBooking(
+                                    id
+                                );
+
+                            }
+
+
+                            if (
+                                action ===
+                                "complete"
+                            ) {
+
+                                await completeBooking(
+                                    id
+                                );
+
+                            }
+
+
+                            if (
+                                action ===
+                                "cancel"
+                            ) {
+
+                                if (
+                                    !confirm(
+                                        "Cancel this booking?"
+                                    )
+                                ) {
+
+                                    button.disabled =
+                                        false;
+
+                                    return;
+                                }
+
+
+                                await cancelBooking(
+                                    id
+                                );
+
+                            }
+
+
+                            if (
+                                action ===
+                                "delete"
+                            ) {
+
+                                if (
+                                    !confirm(
+                                        "Delete this booking permanently?"
+                                    )
+                                ) {
+
+                                    button.disabled =
+                                        false;
+
+                                    return;
+                                }
+
+
+                                await deleteBooking(
+                                    id
+                                );
+
+                            }
+
+
+                            closeBookingModal();
+
+                            await loadBookings();
+
+                        } catch (error) {
+
+                            console.error(
+                                "Booking action failed:",
+                                error
+                            );
+
+
+                            alert(
+                                "Unable to update the booking. Please try again."
+                            );
+
+
+                            button.disabled =
+                                false;
+
+                        }
+
+                    };
+
+            }
+        );
 }
 
 
@@ -1362,9 +1898,14 @@ CloudFix India`;
    MODAL ACTIONS
 ========================================== */
 
-function getModalActions(booking) {
+function getModalActions(
+    booking
+) {
 
-    if (booking.status === "pending") {
+    if (
+        booking.status ===
+        "pending"
+    ) {
 
         return `
 
@@ -1390,11 +1931,13 @@ function getModalActions(booking) {
             </button>
 
         `;
-
     }
 
 
-    if (booking.status === "accepted") {
+    if (
+        booking.status ===
+        "accepted"
+    ) {
 
         return `
 
@@ -1420,7 +1963,6 @@ function getModalActions(booking) {
             </button>
 
         `;
-
     }
 
 
@@ -1438,7 +1980,6 @@ function getModalActions(booking) {
         </button>
 
     `;
-
 }
 
 
@@ -1459,7 +2000,87 @@ function closeBookingModal() {
         modal.remove();
 
     }
+}
 
+
+/* ==========================================
+   PAYMENT STATUS
+========================================== */
+
+function getPaymentStatusLabel(
+    amount,
+    paid
+) {
+
+    amount =
+        Number(amount) || 0;
+
+    paid =
+        Number(paid) || 0;
+
+
+    if (
+        amount <= 0 ||
+        paid <= 0
+    ) {
+
+        return `
+            <span
+                style="
+                    display:inline-block;
+                    padding:5px 10px;
+                    border-radius:20px;
+                    background:#fee2e2;
+                    color:#b91c1c;
+                    font-size:12px;
+                    font-weight:700;
+                "
+            >
+                Unpaid
+            </span>
+        `;
+
+    }
+
+
+    if (
+        paid < amount
+    ) {
+
+        return `
+            <span
+                style="
+                    display:inline-block;
+                    padding:5px 10px;
+                    border-radius:20px;
+                    background:#fef3c7;
+                    color:#b45309;
+                    font-size:12px;
+                    font-weight:700;
+                "
+            >
+                Partial
+            </span>
+        `;
+
+    }
+
+
+    return `
+        <span
+            style="
+                display:inline-block;
+                padding:5px 10px;
+                border-radius:20px;
+                background:#dcfce7;
+                color:#15803d;
+                font-size:12px;
+                font-weight:700;
+            "
+        >
+            Paid
+        </span>
+    `;
 }
 
 
@@ -1487,7 +2108,6 @@ function updateBookingCount(
             }`;
 
     }
-
 }
 
 
@@ -1521,7 +2141,6 @@ function formatDate(
             year: "numeric"
         }
     );
-
 }
 
 
@@ -1535,13 +2154,17 @@ function formatStatus(
 
     const labels = {
 
-        pending: "Pending",
+        pending:
+            "Pending",
 
-        accepted: "Accepted",
+        accepted:
+            "Accepted",
 
-        completed: "Completed",
+        completed:
+            "Completed",
 
-        cancelled: "Cancelled"
+        cancelled:
+            "Cancelled"
 
     };
 
@@ -1550,7 +2173,6 @@ function formatStatus(
         labels[status] ||
         status
     );
-
 }
 
 
@@ -1562,11 +2184,28 @@ function escapeHtml(
     value
 ) {
 
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
+    return String(
+        value ??
+        ""
+    )
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 }
