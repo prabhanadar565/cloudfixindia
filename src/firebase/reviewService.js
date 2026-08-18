@@ -29,6 +29,23 @@ export async function getPendingReviews() {
 
 }
 
+// Get approved reviews for public website
+export async function getApprovedReviews() {
+
+    const q = query(
+        reviewsRef,
+        where("status", "==", "approved")
+    );
+
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map(document => ({
+        id: document.id,
+        ...document.data()
+    }));
+
+}
+
 // Approve review
 export async function approveReview(id) {
 

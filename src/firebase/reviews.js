@@ -50,7 +50,7 @@ export async function getApprovedReviews() {
 
     where("status", "==", "approved"),
 
-    orderBy("createdAt", "desc")
+    
 
   );
 
