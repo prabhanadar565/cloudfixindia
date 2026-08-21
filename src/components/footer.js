@@ -101,7 +101,7 @@ export function footer() {
 
                     <li>
                         <i class="fa-solid fa-phone"></i>
-                        <a href="tel:+919987322608">+91 80977 16336</a>
+                        <a href="tel:+919987322608">+91 99873 22608</a>
                     </li>
 
                     <li>
